@@ -90,6 +90,17 @@ export default function Layout() {
               alt="Carnegie Mellon University Libraries"
               imgClass="h-20"
             />
+            {/* TEMPORARY (testing phase): a second, more visible feedback entry
+                point. Remove this block when testing ends — the footer link
+                stays as the permanent one. */}
+            <a
+              href="https://forms.gle/wSQoMUJxUMqZGoon6"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1 rounded-none bg-accent px-3 py-1.5 text-xs font-semibold text-white hover:opacity-90"
+            >
+              Share feedback →
+            </a>
             <button
               type="button"
               onClick={toggle}
