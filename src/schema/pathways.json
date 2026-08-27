@@ -1,0 +1,363 @@
+{
+  "$comment": "Pathway definitions for the audience selector, and the sub-domains, which are independent of each other. A pathway is the target readiness level, which measures machine-actionability: A/L1 a person finds and reads the dataset, B/L2 a pipeline loads it once someone prepares the load, C/L3 an automated or semi-automated workflow consumes it unattended. A sub-domain is the discipline and governance context, and it is NOT a level: human or biological data demands the same oversight evidence whether it is aimed at L1 or L3, so `sub_domains` sits at the top level here rather than inside Pathway C (where it lived until 0.6.0, which made governance a function of actionability — the conflation §6.2 of the paper explicitly removes). Overlay criteria therefore carry the level of the base criterion they mirror and obey the same cumulative rule as the matrix: consent wording sits at L1 beside the base consent basis, a de-identification method at L2 beside the base method, oversight and access evidence at L3. Overlays are additive — nothing in matrix.json is removed or relaxed by a sub-domain. Renamed from 'ethics_overlay' in 0.2.0; hoisted and re-levelled in 0.6.0.",
+  "version": "0.9.0",
+  "pathways": [
+    {
+      "id": "A",
+      "name": "Accessible",
+      "level": "L1",
+      "drl_band": "C",
+      "tagline": "A person will find this and read it — I am publishing on Figshare, my institutional repository, GitHub, or as supplementary material to a paper.",
+      "deposition_targets_vocabulary": "repositories_l1",
+      "outputs": [
+        "assessment-report.json",
+        "datasheet.md",
+        "croissant.json (recommended, included by default)"
+      ],
+      "references": ["Clark2026", "Lawrence2017"]
+    },
+    {
+      "id": "B",
+      "name": "Faithful",
+      "level": "L2",
+      "drl_band": "B",
+      "tagline": "A pipeline will load it, with someone preparing the load — I am publishing on Hugging Face, Kaggle, OpenML, or Dataverse, anywhere that expects ML-ready metadata.",
+      "deposition_targets_vocabulary": "repositories_l2",
+      "outputs": [
+        "assessment-report.json",
+        "datasheet.md",
+        "croissant.json",
+        "prov.jsonld (optional but recommended)"
+      ],
+      "references": ["Clark2026", "Akhtar2024", "Lawrence2017"]
+    },
+    {
+      "id": "C",
+      "name": "Task-ready",
+      "level": "L3",
+      "drl_band": "A",
+      "tagline": "An automated or semi-automated workflow will consume it with nobody preparing the data first — a workflow engine, an AutoML system, or an instrumented laboratory that ingests it and walks its lineage unattended.",
+      "default_sub_domain": "general",
+      "deposition_targets_vocabulary": "repositories_l3_general",
+      "outputs": [
+        "assessment-report.json",
+        "datasheet.md or healthsheet.md",
+        "croissant.json (with Responsible-AI annotations)",
+        "prov.jsonld"
+      ],
+      "references": ["Clark2026", "Akhtar2024", "W3CPROVO2013", "Lawrence2017"]
+    }
+  ],
+  "sub_domains": [
+    {
+      "id": "general",
+      "name": "General",
+      "description": "Standard L3 ethics evidence as written in the assessment matrix. Default datasheet template with an ethics-evidence section.",
+      "deposition_targets_vocabulary": "repositories_l3_general",
+      "template": "datasheet",
+      "overlay": []
+    },
+    {
+      "id": "clinical",
+      "name": "Clinical / health data",
+      "description": "Healthsheet template; surfaces IRB protocol ID, HIPAA de-identification method, and DUA reference.",
+      "deposition_targets_vocabulary": "repositories_l3_bridge2ai",
+      "deposition_targets_filter": ["CHoRUS", "PhysioNet"],
+      "template": "healthsheet",
+      "overlay": [
+        {
+          "id": "ethics.l3.clinical.irb_protocol_id",
+          "dimension": "Ethics",
+          "level": "L3",
+          "lifecycle_stage": "acquisition",
+          "label": "IRB protocol ID",
+          "evidence_type": "identifier",
+          "verification": "attested",
+          "required_in_pathways": ["C"],
+          "references": ["Rostamzadeh2022", "Clark2026"],
+          "collection_hint": "Copy the protocol number off the approval letter when it arrives; it is rarely findable later without the letter.",
+          "remediation": "The number assigned by your institution's IRB. Required so reviewers can verify the approval if needed.",
+          "verification_hint": "You declare the number; the evidence is the approval letter it appears on. A reviewer verifies it against the issuing IRB."
+        },
+        {
+          "id": "ethics.l2.clinical.hipaa_method",
+          "dimension": "Ethics",
+          "level": "L2",
+          "lifecycle_stage": "curation",
+          "label": "HIPAA de-identification method (Safe Harbor or Expert Determination)",
+          "evidence_type": "controlled_vocabulary",
+          "verification": "attested",
+          "vocabulary_key": "de_id_methods",
+          "required_in_pathways": ["B", "C"],
+          "references": ["Rostamzadeh2022", "Clark2026"],
+          "collection_hint": "Record which method was applied, and by whom, at the time de-identification is performed.",
+          "remediation": "HIPAA recognises two methods. State which one applies; for Expert Determination, name the expert and the report date.",
+          "verification_hint": "You declare the method; the evidence is the Safe Harbor checklist or the expert's determination report, with the date it was signed."
+        },
+        {
+          "id": "ethics.l3.clinical.dua_template",
+          "dimension": "Ethics",
+          "level": "L3",
+          "lifecycle_stage": "governance",
+          "label": "Data-use agreement template URL",
+          "evidence_type": "uri",
+          "verification": "automated",
+          "required_in_pathways": ["C"],
+          "references": ["Rostamzadeh2022", "Clark2026"],
+          "collection_hint": "Note the DUA your target repository provides, or that one must be drafted, before deposit.",
+          "remediation": "PhysioNet, MIMIC, and CHoRUS provide template DUAs that can be reused.",
+          "verification_hint": "The tool checks the URL's syntax only. That the document behind it is the agreement a requester signs is yours to confirm."
+        }
+      ]
+    },
+    {
+      "id": "genomic",
+      "name": "Genomic / functional-genomics",
+      "description": "Surfaces consent type, dbGaP accession, and re-identification risk assessment.",
+      "deposition_targets_vocabulary": "repositories_l3_bridge2ai",
+      "deposition_targets_filter": ["CM4AI"],
+      "template": "datasheet",
+      "overlay": [
+        {
+          "id": "ethics.l1.genomic.consent_type",
+          "dimension": "Ethics",
+          "level": "L1",
+          "lifecycle_stage": "acquisition",
+          "label": "Consent type (general research use vs. disease-specific)",
+          "evidence_type": "text",
+          "verification": "manual",
+          "required_in_pathways": ["A", "B", "C"],
+          "references": ["Clark2026"],
+          "collection_hint": "Copy the consent wording verbatim from the form participants signed.",
+          "remediation": "Genomic consent commonly distinguishes 'general research use' from 'disease-specific use'. Record the exact wording from the consent form.",
+          "verification_hint": "The governance officer confirms the recorded type against the wording of the signed form, which no tool can read for you."
+        },
+        {
+          "id": "ethics.l3.genomic.dbgap_accession",
+          "may_not_apply": true,
+          "dimension": "Ethics",
+          "level": "L3",
+          "lifecycle_stage": "release",
+          "label": "dbGaP study accession (if applicable; mark N/A otherwise)",
+          "evidence_type": "identifier",
+          "verification": "automated",
+          "required_in_pathways": ["C"],
+          "references": ["Clark2026"],
+          "collection_hint": "Record the accession as soon as the submission is registered.",
+          "remediation": "dbGaP accessions take the form `phs######.v#.p#`.",
+          "verification_hint": "The tool checks the accession's form (phs000000, optionally .v1.p1) and accepts an explicit N/A where the study was never deposited in dbGaP."
+        },
+        {
+          "id": "ethics.l2.genomic.reid_risk",
+          "dimension": "Ethics",
+          "level": "L2",
+          "lifecycle_stage": "curation",
+          "label": "Re-identification risk assessment",
+          "evidence_type": "text",
+          "verification": "attested",
+          "required_in_pathways": ["B", "C"],
+          "references": ["Clark2026"],
+          "collection_hint": "Note the assessment method and the threshold at the time you run it.",
+          "remediation": "Genomic data carries non-trivial re-identification risk even after standard de-identification. Document the method and threshold used.",
+          "verification_hint": "You declare this; the evidence is the assessment — the method used, the threshold applied, and the residual risk it reported."
+        }
+      ]
+    },
+    {
+      "id": "voice",
+      "name": "Voice / public-health biomarker",
+      "description": "Surfaces speaker consent, demographic representation audit, and accent / language coverage.",
+      "deposition_targets_vocabulary": "repositories_l3_bridge2ai",
+      "deposition_targets_filter": ["Bridge2AIVoice"],
+      "template": "datasheet",
+      "overlay": [
+        {
+          "id": "ethics.l1.voice.speaker_consent",
+          "dimension": "Ethics",
+          "level": "L1",
+          "lifecycle_stage": "acquisition",
+          "label": "Speaker consent terms (collection, secondary use, voice-cloning restrictions)",
+          "evidence_type": "text",
+          "verification": "manual",
+          "required_in_pathways": ["A", "B", "C"],
+          "references": ["Clark2026"],
+          "collection_hint": "Record what speakers agreed to, including whether voice cloning and biometric use are covered or explicitly excluded.",
+          "remediation": "Voice data implicates re-identification and impersonation risks; consent must explicitly cover or exclude voice cloning and biometric uses.",
+          "verification_hint": "The governance officer confirms what speakers agreed to, including whether voice cloning and biometric use are covered or explicitly excluded."
+        },
+        {
+          "id": "ethics.l3.voice.demographic_audit",
+          "dimension": "Ethics",
+          "level": "L3",
+          "lifecycle_stage": "curation",
+          "label": "Demographic representation audit across speakers",
+          "evidence_type": "file",
+          "verification": "attested",
+          "required_in_pathways": ["C"],
+          "references": ["Clark2026", "KidwaiKhan2024"],
+          "collection_hint": "Capture speaker demographics as structured fields during enrolment; a retrospective audit is only as good as what was recorded at the time.",
+          "remediation": "Counts and proportions across age, sex, race/ethnicity, and primary language.",
+          "verification_hint": "You declare this; the evidence is the audit output: counts and proportions across age, sex, race or ethnicity, and primary language.",
+          "validators": ["aequitas", "fairlearn"]
+        },
+        {
+          "id": "ethics.l3.voice.accent_language_coverage",
+          "dimension": "Ethics",
+          "level": "L3",
+          "lifecycle_stage": "documentation",
+          "label": "Accent and language coverage statement",
+          "evidence_type": "text",
+          "verification": "manual",
+          "required_in_pathways": ["C"],
+          "references": ["Clark2026"],
+          "collection_hint": "Note each speaker's language and accent at enrolment, and the varieties you did not manage to recruit.",
+          "remediation": "Document the accents and languages represented and any that are absent. Coverage gaps constrain valid downstream uses.",
+          "verification_hint": "The domain expert confirms the coverage statement against enrolment records, and names the varieties that were not recruited."
+        }
+      ]
+    },
+    {
+      "id": "institutional",
+      "name": "Institutional / human-subjects (non-clinical)",
+      "description": "Surfaces IRB or equivalent committee approval and tiered-access policy. Targets institutional Dataverse with restricted-access tier and ICPSR for social-science data.",
+      "deposition_targets_vocabulary": "repositories_l3_general",
+      "deposition_targets_filter": ["ICPSR"],
+      "template": "datasheet",
+      "overlay": [
+        {
+          "id": "ethics.l3.institutional.review_body",
+          "dimension": "Ethics",
+          "level": "L3",
+          "lifecycle_stage": "acquisition",
+          "label": "Reviewing body (IRB, ethics committee, or equivalent)",
+          "evidence_type": "text",
+          "verification": "manual",
+          "required_in_pathways": ["C"],
+          "references": ["Clark2026"],
+          "collection_hint": "Record the reviewing committee and its institution when the review concludes.",
+          "remediation": "Name the institution and the committee. Required so reviewers can verify the review record if needed.",
+          "verification_hint": "The governance officer confirms the named committee and institution match the review record."
+        },
+        {
+          "id": "ethics.l3.institutional.tiered_access_policy",
+          "dimension": "Ethics",
+          "level": "L3",
+          "lifecycle_stage": "governance",
+          "label": "Tiered-access policy URL",
+          "evidence_type": "uri",
+          "verification": "automated",
+          "required_in_pathways": ["C"],
+          "references": ["Clark2026"],
+          "collection_hint": "Note which access tier the data will sit in and the policy URL that defines it.",
+          "remediation": "Institutional Dataverse and ICPSR both publish tiered-access policies; link to the one that applies.",
+          "verification_hint": "The tool checks the URL's syntax only. That the policy it points at is the current one is yours to confirm."
+        }
+      ]
+    },
+    {
+      "id": "materials",
+      "name": "Materials science (computational & experimental)",
+      "description": "Non-human-subjects physical-science data. Surfaces domain-repository deposition (NOMAD, Materials Cloud, OQMD, ICSD), discipline encoding (CIF, NeXus), shared-vocabulary interoperability (EMMO, OPTIMADE, NOMAD Metainfo), and a-priori provenance capture (AiiDA, FireWorks, signac). Ethics here means provenance of rights: licensing, redistribution, and export control.",
+      "deposition_targets_vocabulary": "repositories_l3_materials",
+      "template": "datasheet",
+      "label_overrides": {
+        "sustainability.l3.compute_cost_reported": {
+          "label": "Compute cost of producing this release reported (core-hours, machine, and code)",
+          "remediation": "In computational materials science the unit is core-hours on a named machine. Report the total core-hours, the cluster or partition, the code and version, and the number of runs behind the released data — a high-throughput screening campaign and a single relaxation differ by orders of magnitude, and a reader cannot infer which from the dataset alone."
+        }
+      },
+      "overlay": [
+        {
+          "id": "fairness.l3.materials.domain_repository",
+          "dimension": "FAIRness",
+          "level": "L3",
+          "lifecycle_stage": "governance",
+          "label": "Domain repository selected for deposition (generalist repository only as fallback)",
+          "evidence_type": "controlled_vocabulary",
+          "vocabulary_key": "repositories_l3_materials",
+          "verification": "attested",
+          "required_in_pathways": ["C"],
+          "references": ["Ghiringhelli2023", "Wilkinson2016"],
+          "collection_hint": "Decide the target repository early. NOMAD, Materials Cloud, OQMD, and ICSD each have submission requirements that are easier to meet before the runs than after.",
+          "remediation": "Domain repository first, generalist fallback second. NOMAD and the Materials Cloud Archive mint DOIs and index the metadata so the record stays machine-queryable; OQMD and ICSD are structure databases with their own submission and licensing routes. Zenodo, Figshare, and Dryad remain valid when no domain repository accepts the record type. Record which one, and the DOI it minted.",
+          "verification_hint": "You declare this; the evidence is the DOI the repository minted when it accepted the deposit."
+        },
+        {
+          "id": "fairness.l3.materials.encoding_standard",
+          "dimension": "FAIRness",
+          "level": "L3",
+          "lifecycle_stage": "documentation",
+          "label": "Discipline encoding standard declared for the released files",
+          "evidence_type": "controlled_vocabulary",
+          "vocabulary_key": "formats_materials",
+          "verification": "attested",
+          "required_in_pathways": ["C"],
+          "references": ["Hall1991", "Ghiringhelli2023"],
+          "collection_hint": "Export in the disciplinary format at the moment of measurement or calculation — CIF for structures, NeXus for beamline data. Converting later cannot add what the original never carried.",
+          "remediation": "Crystal structures go in CIF (IUCr): `_chemical_formula_sum`, `_cell_length_a`, `_space_group_H-M`, and an `_atom_site` loop with fractional coordinates. Neutron, X-ray, and muon experiment data go in NeXus, which is HDF5 underneath and so stays loadable in a standard environment. Molecules and reactions can use CML. Name the standard and its version — a bare CSV of peak positions is L1 evidence, not L3.",
+          "verification_hint": "You declare the standard; the evidence is the file validating against it. checkCIF checks a CIF, cnxvalidate checks a NeXus file against its application definition.",
+          "validators": ["checkcif", "nexus-validate"]
+        },
+        {
+          "id": "fairness.l2.materials.ontology_mapping",
+          "dimension": "FAIRness",
+          "level": "L2",
+          "lifecycle_stage": "documentation",
+          "label": "Field names mapped to a shared vocabulary or exposed through a materials API",
+          "evidence_type": "controlled_vocabulary",
+          "vocabulary_key": "materials_interoperability",
+          "verification": "attested",
+          "required_in_pathways": ["B", "C"],
+          "references": ["EMMC2021", "Andersen2021", "Ghiringhelli2023"],
+          "collection_hint": "For every field name your code or instrument emits, note the concept it denotes. `E_tot`, `etotal`, and `energy` are the same quantity only because someone said so.",
+          "remediation": "One quantity carries many names: VASP writes `E_tot`, Quantum ESPRESSO writes `etotal`, an XRD ELN writes `energy`. Map each field to one shared concept so the record is queryable across codes — EMMO for materials concepts, NOMAD Metainfo for a repository-native schema, OPTIMADE when the data is served from a queryable endpoint. Record the vocabulary and, where one exists, the concept IRI per field.",
+          "verification_hint": "You declare this; the evidence is the mapping — each field name to its concept IRI — or a queryable endpoint that validates against the OPTIMADE specification.",
+          "validators": ["optimade-validator"]
+        },
+        {
+          "id": "provenance.l3.materials.apriori_capture",
+          "dimension": "Provenance",
+          "level": "L3",
+          "lifecycle_stage": "acquisition",
+          "label": "Provenance captured a priori by a workflow engine or ELN, as the run proceeds",
+          "evidence_type": "controlled_vocabulary",
+          "vocabulary_key": "provenance_engines",
+          "verification": "attested",
+          "required_in_pathways": ["C"],
+          "references": ["Huber2020", "Pizzi2016", "OCarragain2019"],
+          "collection_hint": "Run through an engine that writes the graph as it goes. If you find yourself taking notes about what the machine just did, the record is already incomplete.",
+          "remediation": "At high throughput — order 10,000 processes an hour — nobody is taking notes, and reconstructing the graph after the fact is intractable. Name what recorded inputs, steps, and outputs as the run proceeded (AiiDA, FireWorks/atomate, signac, Nextflow with nf-prov, CWLProv; an ELN/LIMS entry for bench work) and export its graph alongside the data. A Workflow-Run RO-Crate is a packaged form of that export; the PROV-O record this tool builds is the interchange form.",
+          "verification_hint": "You declare this; the evidence is the engine's own export — an AiiDA graph, an nf-prov record, a Workflow-Run RO-Crate — which shows the graph was written as the run proceeded."
+        },
+        {
+          "id": "characterization.l3.materials.acquisition_parameters",
+          "dimension": "Characterization",
+          "level": "L3",
+          "lifecycle_stage": "acquisition",
+          "label": "Instrument or computational parameters recorded per run (who / what / when / where / why / how)",
+          "evidence_type": "text",
+          "verification": "manual",
+          "required_in_pathways": ["C"],
+          "references": ["Ghiringhelli2023", "Clark2026"],
+          "collection_hint": "Log the full settings per run, at the run: source, voltage, current, scan range, temperature, and sample preparation; or code, functional, pseudopotentials, k-point mesh, cutoffs, and convergence thresholds.",
+          "remediation": "Instruments rarely export every state variable, so sample-state metadata has to be captured in an ELN or LIMS. Experimental: instrument and its identifier, radiation source, operating settings, scan range, temperature, sample preparation — e.g. Rigaku SmartLab (inst-0217), Cu Kα, 40 kV / 30 mA, 2θ 10–80°, RT. Computational: code and version, functional, pseudopotentials, k-point mesh, plane-wave cutoff, convergence thresholds — e.g. k-points 6×6×6, ecutwfc 60 Ry. Give the operator's ORCID and the date.",
+          "verification_hint": "The domain expert confirms the per-run parameters against the instrument log or the calculation inputs. A missing convergence threshold is invisible in the released file."
+        },
+        {
+          "id": "ethics.l1.materials.source_data_licensing",
+          "dimension": "Ethics",
+          "level": "L1",
+          "lifecycle_stage": "governance",
+          "label": "Licensing and redistribution terms of third-party source data, plus any export-control constraint",
+          "evidence_type": "text",
+          "verification": "manual",
+          "required_in_pathways": ["A", "B", "C"],
+          "references": ["Wilkinson2016", "Clark2026"],
+          "collection_hint": "Record the licence of every external input as you pull it in, with the version and date you retrieved it.",
+          "remediation": "Materials data is rarely human-subjects data, so the ethics evidence here is provenance of rights. State the licence of every input drawn from an external database — ICSD is subscription-licensed and generally not redistributable, NOMAD and OQMD are open — and give the SPDX identifier for what you release. Note any export-control or dual-use restriction and any embargo tied to an industrial partner. If none applies, say so explicitly: as open as possible, as closed as necessary.",
+          "verification_hint": "The governance officer confirms the licence of every external input against that source's own terms. Redistribution rights are the thing that cannot be assumed."
+        }
+      ]
+    }
+  ]
+}

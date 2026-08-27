@@ -1,0 +1,262 @@
+{
+  "$comment": "Citation registry for the assessment matrix, the pathway descriptions, and the collection guide. Keys here are the only valid values for any 'references' array in matrix.json, pathways.json, or guidance.json. Entries carrying a 'ref' are in the bibliography of González-Espinoza et al. (2026) and the number matches the source paper, so the numbered list on the References page and the paper agree; they are held here in that order. Entries carrying 'source': 'materials-guidance' are cited by the Pathway-C materials sub-domain and are NOT in the paper's bibliography — they have no 'ref' and sort after the numbered list. An entry has a 'ref' or a 'source' tag, never both; matrix.test.js enforces that and the contiguity of the numbering. All six schema files move in lockstep from 0.9.0; 1.0.0 is cut when the criterion ids are considered stable.",
+  "version": "0.9.0",
+  "citations": {
+    "Clark2026": {
+      "ref": 1,
+      "authors": "Clark, T. et al.",
+      "year": 2026,
+      "title": "AI-readiness Criteria for Biomedical Data",
+      "venue": "bioRxiv preprint",
+      "doi": "10.1101/2024.10.23.619844"
+    },
+    "Lawrence2017": {
+      "ref": 2,
+      "authors": "Lawrence, N. D.",
+      "year": 2017,
+      "title": "Data Readiness Levels",
+      "venue": "arXiv:1705.02245",
+      "doi": "10.48550/arXiv.1705.02245"
+    },
+    "Bahim2020": {
+      "ref": 3,
+      "authors": "Bahim, C. et al.",
+      "year": 2020,
+      "title": "The FAIR Data Maturity Model: An Approach to Harmonise FAIR Assessments",
+      "venue": "Data Science Journal 19:41",
+      "doi": "10.5334/dsj-2020-041"
+    },
+    "Wilkinson2016": {
+      "ref": 4,
+      "authors": "Wilkinson, M. D. et al.",
+      "year": 2016,
+      "title": "The FAIR Guiding Principles for scientific data management and stewardship",
+      "venue": "Scientific Data 3:160018",
+      "doi": "10.1038/sdata.2016.18"
+    },
+    "KidwaiKhan2024": {
+      "ref": 5,
+      "authors": "Kidwai-Khan, F. et al.",
+      "year": 2024,
+      "title": "A roadmap to artificial intelligence (AI): Methods for designing and building AI ready data to promote fairness",
+      "venue": "Journal of Biomedical Informatics 154:104654",
+      "doi": "10.1016/j.jbi.2024.104654"
+    },
+    "SalehiSchmeink2024": {
+      "ref": 6,
+      "authors": "Salehi, S. and Schmeink, A.",
+      "year": 2024,
+      "title": "Data-Centric Green Artificial Intelligence: A Survey",
+      "venue": "IEEE Transactions on Artificial Intelligence 5(5):1973-1989",
+      "doi": "10.1109/TAI.2023.3315272"
+    },
+    "Aldoseri2023": {
+      "ref": 7,
+      "authors": "Aldoseri, A., Al-Khalifa, K. N., and Hamouda, A. M.",
+      "year": 2023,
+      "title": "Re-Thinking Data Strategy and Integration for Artificial Intelligence: Concepts, Opportunities, and Challenges",
+      "venue": "Applied Sciences 13(12):7082",
+      "doi": "10.3390/app13127082"
+    },
+    "LawrenceMontgomery2024": {
+      "ref": 8,
+      "authors": "Lawrence, N. D. and Montgomery, J.",
+      "year": 2024,
+      "title": "Accelerating AI for science: open data science for science",
+      "venue": "Royal Society Open Science 11(8):231130",
+      "doi": "10.1098/rsos.231130"
+    },
+    "Kanza2017": {
+      "ref": 9,
+      "authors": "Kanza, S. et al.",
+      "year": 2017,
+      "title": "Electronic lab notebooks: can they replace paper?",
+      "venue": "Journal of Cheminformatics 9:31",
+      "doi": "10.1186/s13321-017-0221-3"
+    },
+    "Ghiringhelli2023": {
+      "ref": 10,
+      "authors": "Ghiringhelli, L. M. et al.",
+      "year": 2023,
+      "title": "Shared metadata for data-centric materials science",
+      "venue": "Scientific Data 10:626",
+      "doi": "10.1038/s41597-023-02501-8"
+    },
+    "Huber2020": {
+      "ref": 11,
+      "authors": "Huber, S. P. et al.",
+      "year": 2020,
+      "title": "AiiDA 1.0, a scalable computational infrastructure for automated reproducible workflows and data provenance",
+      "venue": "Scientific Data 7:300",
+      "doi": "10.1038/s41597-020-00638-4"
+    },
+    "Stocker2020": {
+      "ref": 12,
+      "authors": "Stocker, M. et al.",
+      "year": 2020,
+      "title": "Persistent Identification of Instruments",
+      "venue": "Data Science Journal 19:18",
+      "doi": "10.5334/dsj-2020-018"
+    },
+    "Musen2015": {
+      "ref": 13,
+      "authors": "Musen, M. A. et al.",
+      "year": 2015,
+      "title": "The center for expanded data annotation and retrieval",
+      "venue": "Journal of the American Medical Informatics Association 22(6):1148-1152",
+      "doi": "10.1093/jamia/ocv048"
+    },
+    "Sansone2012": {
+      "ref": 14,
+      "authors": "Sansone, S.-A. et al.",
+      "year": 2012,
+      "title": "Toward interoperable bioscience data",
+      "venue": "Nature Genetics 44(2):121-126",
+      "doi": "10.1038/ng.1054"
+    },
+    "SoilandReyes2022": {
+      "ref": 15,
+      "authors": "Soiland-Reyes, S. et al.",
+      "year": 2022,
+      "title": "Packaging research artefacts with RO-Crate",
+      "venue": "Data Science 5(2):97-138",
+      "doi": "10.3233/DS-210053"
+    },
+    "W3CPROVO2013": {
+      "ref": 16,
+      "authors": "Lebo, T., Sahoo, S., and McGuinness, D. (eds.)",
+      "year": 2013,
+      "title": "PROV-O: The PROV Ontology",
+      "venue": "W3C Recommendation",
+      "url": "https://www.w3.org/TR/prov-o/"
+    },
+    "Sansone2019": {
+      "ref": 17,
+      "authors": "Sansone, S.-A. et al.",
+      "year": 2019,
+      "title": "FAIRsharing as a community approach to standards, repositories and policies",
+      "venue": "Nature Biotechnology 37(4):358-367",
+      "doi": "10.1038/s41587-019-0080-8"
+    },
+    "Akhtar2024": {
+      "ref": 18,
+      "authors": "Akhtar, M. et al.",
+      "year": 2024,
+      "title": "Croissant: A Metadata Format for ML-Ready Datasets",
+      "venue": "DEEM '24, ACM, pp. 1-6",
+      "doi": "10.1145/3650203.3663326"
+    },
+    "Gebru2021": {
+      "ref": 19,
+      "authors": "Gebru, T. et al.",
+      "year": 2021,
+      "title": "Datasheets for Datasets",
+      "venue": "Communications of the ACM 64(12):86-92",
+      "doi": "10.1145/3458723"
+    },
+    "DataCardsGoogle": {
+      "ref": 20,
+      "authors": "Google Research",
+      "year": null,
+      "title": "The Data Cards Playbook",
+      "venue": "Google Research",
+      "url": "https://sites.research.google/datacardsplaybook"
+    },
+    "Mitchell2019": {
+      "ref": 21,
+      "authors": "Mitchell, M. et al.",
+      "year": 2019,
+      "title": "Model Cards for Model Reporting",
+      "venue": "FAT* '19, ACM, pp. 220-229",
+      "doi": "10.1145/3287560.3287596"
+    },
+    "Rostamzadeh2022": {
+      "ref": 22,
+      "authors": "Rostamzadeh, N. et al.",
+      "year": 2022,
+      "title": "Healthsheet: Development of a Transparency Artifact for Health Datasets",
+      "venue": "FAccT '22, ACM, pp. 1943-1961",
+      "doi": "10.1145/3531146.3533239"
+    },
+    "OpenAIGPT55": {
+      "ref": 23,
+      "authors": "OpenAI",
+      "year": 2026,
+      "title": "GPT-5.5 System Card",
+      "venue": "OpenAI",
+      "url": "https://openai.com/index/gpt-5-5-system-card/"
+    },
+    "Knublauch2017": {
+      "ref": 24,
+      "authors": "Knublauch, H. and Kontokostas, D. (eds.)",
+      "year": 2017,
+      "title": "Shapes Constraint Language (SHACL)",
+      "venue": "W3C Recommendation",
+      "url": "https://www.w3.org/TR/shacl/"
+    },
+    "Ravi2022": {
+      "ref": 25,
+      "authors": "Ravi, N. et al.",
+      "year": 2022,
+      "title": "FAIR principles for AI models with a practical application for accelerated high energy diffraction microscopy",
+      "venue": "Scientific Data 9:657",
+      "doi": "10.1038/s41597-022-01712-9"
+    },
+    "Blatter2022": {
+      "ref": 26,
+      "authors": "Blatter, T. U., Witte, H., Nakas, C. T., and Leichtle, A. B.",
+      "year": 2022,
+      "title": "Big Data in Laboratory Medicine — FAIR Quality for AI?",
+      "venue": "Diagnostics 12(8):1923",
+      "doi": "10.3390/diagnostics12081923"
+    },
+    "Raza2024": {
+      "ref": 27,
+      "authors": "Raza, S., Ghuge, S., Ding, C., Dolatabadi, E., and Pandya, D.",
+      "year": 2024,
+      "title": "FAIR Enough: Develop and Assess a FAIR-Compliant Dataset for Large Language Model Training?",
+      "venue": "Data Intelligence 6(2):559-585",
+      "doi": "10.1162/dint_a_00255"
+    },
+    "Hall1991": {
+      "source": "materials-guidance",
+      "authors": "Hall, S. R., Allen, F. H., and Brown, I. D.",
+      "year": 1991,
+      "title": "The crystallographic information file (CIF): a new standard archive file for crystallography",
+      "venue": "Acta Crystallographica Section A 47(6):655-685",
+      "doi": "10.1107/S010876739101067X"
+    },
+    "Andersen2021": {
+      "source": "materials-guidance",
+      "authors": "Andersen, C. W. et al.",
+      "year": 2021,
+      "title": "OPTIMADE, an API for exchanging materials data",
+      "venue": "Scientific Data 8:217",
+      "doi": "10.1038/s41597-021-00974-z"
+    },
+    "EMMC2021": {
+      "source": "materials-guidance",
+      "authors": "European Materials Modelling Council (EMMC)",
+      "year": 2021,
+      "title": "EMMO — Elementary Multiperspective Material Ontology",
+      "venue": "EMMC ontology release",
+      "url": "https://emmo-repo.github.io/"
+    },
+    "Pizzi2016": {
+      "source": "materials-guidance",
+      "authors": "Pizzi, G., Cepellotti, A., Sabatini, R., Marzari, N., and Kozinsky, B.",
+      "year": 2016,
+      "title": "AiiDA: automated interactive infrastructure and database for computational science",
+      "venue": "Computational Materials Science 111:218-230",
+      "doi": "10.1016/j.commatsci.2015.09.013"
+    },
+    "OCarragain2019": {
+      "source": "materials-guidance",
+      "authors": "Ó Carragáin, E., Goble, C., Sefton, P., and Soiland-Reyes, S.",
+      "year": 2019,
+      "title": "A lightweight approach to research object data packaging (RO-Crate)",
+      "venue": "Bioinformatics Open Source Conference (BOSC), ISMB/ECCB",
+      "doi": "10.5281/zenodo.3250687"
+    }
+  }
+}

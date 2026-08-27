@@ -1,0 +1,52 @@
+# SHACL shapes for the PROV-O profile (Phase 4).
+#
+# These validate the *graph shape* of the PROV-O record using standard PROV/RDF
+# predicates only — the app-specific JSON markers (kind, role, software) are not
+# in the JSON-LD @context and do not survive expansion to RDF, so they are
+# checked by the JS structural validator (provoValidation.js), not here. The two
+# layers are complementary: JS handles the app conventions; SHACL enforces the
+# PROV profile on the expanded graph.
+#
+# The shapes intentionally encode the paper's profile (activities record inputs
+# and an agent; derivation edges resolve to entities), which is stricter than
+# base PROV — that is the point of a profile. The generated scaffold will not
+# conform until the user completes inputs/agents in the Export PROV editor.
+
+@prefix sh:   <http://www.w3.org/ns/shacl#> .
+@prefix prov: <http://www.w3.org/ns/prov#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix ar:   <https://airready.example/shapes#> .
+
+ar:ActivityShape a sh:NodeShape ;
+    sh:targetClass prov:Activity ;
+    sh:property [
+        sh:path prov:used ;
+        sh:minCount 1 ;
+        sh:severity sh:Violation ;
+        sh:message "Every prov:Activity must record at least one input (prov:used)." ;
+    ] ;
+    sh:property [
+        sh:path prov:wasAssociatedWith ;
+        sh:minCount 1 ;
+        sh:nodeKind sh:IRI ;
+        sh:severity sh:Violation ;
+        sh:message "Every prov:Activity must be associated with an agent (prov:wasAssociatedWith)." ;
+    ] .
+
+ar:EntityShape a sh:NodeShape ;
+    sh:targetClass prov:Entity ;
+    sh:property [
+        sh:path prov:wasDerivedFrom ;
+        sh:nodeKind sh:IRI ;
+        sh:severity sh:Violation ;
+        sh:message "prov:wasDerivedFrom must reference an entity by IRI." ;
+    ] .
+
+ar:AgentShape a sh:NodeShape ;
+    sh:targetClass prov:Agent ;
+    sh:property [
+        sh:path rdfs:label ;
+        sh:minCount 1 ;
+        sh:severity sh:Warning ;
+        sh:message "A prov:Agent should carry an rdfs:label." ;
+    ] .

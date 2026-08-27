@@ -1,0 +1,186 @@
+{
+  "$comment": "Discipline-specific validator registry (app_design.md §7.4). The tool's core validation (Croissant structural+referential, SHACL for PROV-O, identifier grounding) is general; this registry catalogues field-specific validators surfaced by declared format / Pathway-C sub-domain. 'execution' controls integration: 'in-browser' validators can run in place and mark a criterion automated; 'cli'/'web-service' validators are referenced and their outcome recorded as attested evidence. 'applies_to' is open-world (free tags: format names and/or sub-domain ids), not validated against vocabularies.json. For disciplines outside this seeded set, the 'registries' below are the authoritative lookup.",
+  "version": "0.9.0",
+  "validators": [
+    {
+      "id": "bids-validator",
+      "discipline": "Neuroimaging",
+      "applies_to": ["BIDS", "NIfTI", "neuroimaging"],
+      "standard": "Brain Imaging Data Structure (BIDS)",
+      "standard_url": "https://bids.neuroimaging.io/",
+      "validator_name": "BIDS Validator",
+      "validator_url": "https://bids-standard.github.io/bids-validator/",
+      "reference_doi": "10.1038/sdata.2016.44",
+      "execution": "web-service",
+      "note": "The BIDS Validator runs in your browser at its own site: point it at the dataset directory and record the report as attested evidence. A JS/Deno build exists and could one day run inside this tool, which does not embed it today."
+    },
+    {
+      "id": "frictionless",
+      "discipline": "Tabular (general)",
+      "applies_to": ["CSV", "TSV", "Parquet", "Table Schema", "Data Package"],
+      "standard": "Frictionless Table Schema / Data Package",
+      "standard_url": "https://frictionlessdata.io/",
+      "validator_name": "Frictionless",
+      "validator_url": "https://framework.frictionlessdata.io/",
+      "execution": "cli",
+      "note": "Run frictionless validate over the data package and record the report as attested evidence. General-purpose, so it applies across disciplines. A JavaScript port exists; this tool does not embed it."
+    },
+    {
+      "id": "shacl",
+      "discipline": "Any RDF (general)",
+      "applies_to": ["JSON-LD", "Turtle", "RDF", "PROV-O"],
+      "standard": "Shapes Constraint Language (SHACL)",
+      "standard_url": "https://www.w3.org/TR/shacl/",
+      "validator_name": "rdf-validate-shacl",
+      "validator_url": "https://github.com/zazuko/rdf-validate-shacl",
+      "execution": "in-browser",
+      "note": "The tool's own engine for graph-level validation; used for the PROV-O record and any RDF release. Listed here to document the general RDF option."
+    },
+    {
+      "id": "great-expectations",
+      "discipline": "Tabular / statistical (general)",
+      "applies_to": ["CSV", "TSV", "Parquet", "tabular", "statistical"],
+      "standard": "Declarative expectation suites",
+      "standard_url": "https://greatexpectations.io/",
+      "validator_name": "Great Expectations",
+      "validator_url": "https://github.com/great-expectations/great_expectations",
+      "execution": "cli",
+      "note": "Expresses distribution, missingness, range, and uniqueness checks as a suite that runs in CI. Produces the profiling report that backs the L2 characterization rows."
+    },
+    {
+      "id": "pandera",
+      "discipline": "Tabular / statistical (general)",
+      "applies_to": ["CSV", "Parquet", "tabular", "statistical", "pandas"],
+      "standard": "Dataframe schema and statistical checks",
+      "standard_url": "https://pandera.readthedocs.io/",
+      "validator_name": "Pandera",
+      "validator_url": "https://github.com/unionai-oss/pandera",
+      "execution": "cli",
+      "note": "Schema and hypothesis checks against a dataframe, in the pipeline that produced it. Lighter to adopt than a full expectation suite."
+    },
+    {
+      "id": "deequ",
+      "discipline": "Tabular at scale",
+      "applies_to": ["Parquet", "tabular", "statistical", "Spark"],
+      "standard": "Data-quality constraints on Spark",
+      "standard_url": "https://github.com/awslabs/deequ",
+      "validator_name": "Deequ",
+      "validator_url": "https://github.com/awslabs/deequ",
+      "execution": "cli",
+      "note": "The same class of statistical and structural checks for datasets too large to profile on one machine."
+    },
+    {
+      "id": "aequitas",
+      "discipline": "Bias and fairness audit",
+      "applies_to": ["tabular", "bias", "protected attributes", "human subjects"],
+      "standard": "Bias and fairness audit report",
+      "standard_url": "http://aequitas.dssg.io/",
+      "validator_name": "Aequitas",
+      "validator_url": "https://github.com/dssg/aequitas",
+      "execution": "cli",
+      "note": "Representation and parity metrics across protected attributes. Produces the report that is the evidence for the L3 bias-audit row; compare before and after curation, so introduced skew shows alongside released-state parity."
+    },
+    {
+      "id": "fairlearn",
+      "discipline": "Bias and fairness audit",
+      "applies_to": ["tabular", "bias", "protected attributes", "human subjects"],
+      "standard": "Fairness assessment metrics",
+      "standard_url": "https://fairlearn.org/",
+      "validator_name": "Fairlearn",
+      "validator_url": "https://github.com/fairlearn/fairlearn",
+      "execution": "cli",
+      "note": "Group-fairness metrics and a dashboard. Overlaps Aequitas; either satisfies the bias-audit evidence."
+    },
+    {
+      "id": "cf-checker",
+      "discipline": "Climate / geoscience",
+      "applies_to": ["NetCDF", "CF", "climate"],
+      "standard": "Climate and Forecast (CF) Metadata Conventions",
+      "standard_url": "https://cfconventions.org/",
+      "validator_name": "CF-checker",
+      "validator_url": "https://github.com/cedadev/cf-checker",
+      "reference_doi": "10.5194/gmd-10-3947-2017",
+      "execution": "cli",
+      "note": "Python CLI; run externally and record the report as attested evidence."
+    },
+    {
+      "id": "ddi-validation",
+      "discipline": "Social sciences",
+      "applies_to": ["DDI", "SPSS", "Stata", "social-science"],
+      "standard": "Data Documentation Initiative (DDI-Codebook / DDI-Lifecycle)",
+      "standard_url": "https://ddialliance.org/",
+      "validator_name": "Colectica / DDI validation tools",
+      "validator_url": "https://www.colectica.com/",
+      "execution": "cli",
+      "note": "Desktop/CLI tooling; run externally and record the outcome as attested evidence."
+    },
+    {
+      "id": "gbif-validator",
+      "discipline": "Ecology / biodiversity",
+      "applies_to": ["Darwin Core", "DwC-A", "biodiversity"],
+      "standard": "Darwin Core",
+      "standard_url": "https://dwc.tdwg.org/",
+      "validator_name": "GBIF Data Validator",
+      "validator_url": "https://www.gbif.org/tools/data-validator",
+      "reference_doi": "10.1371/journal.pone.0029715",
+      "execution": "web-service",
+      "note": "Hosted web service; submit externally and record the validation summary as attested evidence."
+    },
+    {
+      "id": "checkcif",
+      "discipline": "Materials / crystallography",
+      "applies_to": ["CIF", "crystallography", "materials"],
+      "standard": "Crystallographic Information Framework (CIF)",
+      "standard_url": "https://www.iucr.org/resources/cif",
+      "validator_name": "checkCIF",
+      "validator_url": "https://checkcif.iucr.org/",
+      "reference_doi": "10.1107/S010876739101067X",
+      "execution": "web-service",
+      "note": "IUCr hosted service; upload the CIF and record the report as attested evidence. Also runs as part of IUCr journal submission."
+    },
+    {
+      "id": "optimade-validator",
+      "discipline": "Materials / cross-database query",
+      "applies_to": ["OPTIMADE", "materials", "JSON:API"],
+      "standard": "OPTIMADE API specification",
+      "standard_url": "https://www.optimade.org/",
+      "validator_name": "optimade-validator (optimade-python-tools)",
+      "validator_url": "https://github.com/Materials-Consortia/optimade-python-tools",
+      "reference_doi": "10.1038/s41597-021-00974-z",
+      "execution": "cli",
+      "note": "Python CLI; validates an OPTIMADE endpoint against the specification. Applies when the dataset is served from a queryable endpoint."
+    },
+    {
+      "id": "nexus-validate",
+      "discipline": "Materials / neutron, X-ray, and muon experiments",
+      "applies_to": ["NeXus", "HDF5", "materials", "spectroscopy"],
+      "standard": "NeXus application definitions",
+      "standard_url": "https://www.nexusformat.org/",
+      "validator_name": "cnxvalidate",
+      "validator_url": "https://github.com/nexusformat/cnxvalidate",
+      "execution": "cli",
+      "note": "Validates an HDF5 file against a NeXus application definition. Run externally and record the outcome as attested evidence."
+    }
+  ],
+  "registries": [
+    {
+      "id": "fairsharing",
+      "name": "FAIRsharing",
+      "url": "https://fairsharing.org/",
+      "reference_doi": "10.1038/s41587-019-0080-8",
+      "note": "Registry of standards, databases, and policies tagged by discipline; authoritative entry point for the long tail."
+    },
+    {
+      "id": "dcc-metadata",
+      "name": "DCC Disciplinary Metadata Catalogue",
+      "url": "https://www.dcc.ac.uk/guidance/standards/metadata",
+      "note": "Discipline-organised metadata standards with implementation tools and repository use cases."
+    },
+    {
+      "id": "rda-msc",
+      "name": "RDA Metadata Standards Catalog",
+      "url": "https://rdamsc.bath.ac.uk/",
+      "note": "Community-maintained successor to the DCC catalogue; versioned, open codebase."
+    }
+  ]
+}

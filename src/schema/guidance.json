@@ -1,0 +1,569 @@
+{
+  "$comment": "Standing guidance content for the collection guide and the intro cards: the notes-to-actionable ladder, the wh-questions crosswalk, the per-run log template, worked ontology examples, and the burden-reduction landscape. Held here rather than inline in components so the cards on the start page and the generated guide cannot drift apart. Prose, not criteria — nothing here affects a verdict. Citation keys in any 'references' array resolve in references.json, the same registry the matrix uses; matrix.test.js enforces it.",
+  "version": "0.9.0",
+  "workflow": {
+    "lead": "The guide has a section for each phase of the work. Read in order they are a sequence, and the third one is the one most easily skipped: a dataset can pass through capture and documentation and still arrive at deposit with a descriptor nothing can load. Verification sits between writing the documents and releasing them.",
+    "phases": [
+      {
+        "id": "capture",
+        "name": "Capture",
+        "what": "Write the observation down while it is still available. Instrument settings, operator, consent wording — the rows that stop existing once the run is over.",
+        "anchor": "ladder"
+      },
+      {
+        "id": "document",
+        "name": "Document",
+        "what": "Route what you captured into the three released artifacts: the datasheet a person reads, the descriptor a pipeline loads, the provenance record that says how it came to be.",
+        "anchor": "inputs"
+      },
+      {
+        "id": "verify",
+        "name": "Verify",
+        "what": "Check that what you wrote is what a consumer can act on. This is the phase that separates machine-readable from machine-actionable, and the last point at which a defect from an earlier phase is still catchable.",
+        "anchor": "validation"
+      },
+      {
+        "id": "release",
+        "name": "Release",
+        "what": "Deposit the bundle with an identifier that resolves, a licence a machine can read, and an access tier that matches the consent.",
+        "anchor": "worksheet"
+      },
+      {
+        "id": "steward",
+        "name": "Steward",
+        "what": "Keep it: versions, deprecations, a route for errata. The phase that decides whether the work accumulates or resets with the next project.",
+        "anchor": "stewardship"
+      }
+    ]
+  },
+  "ladder": [
+    {
+      "rung": "Paper notebook",
+      "icon": "📓",
+      "kind": "Prose, local abbreviation",
+      "tone": "border-line bg-surface-2",
+      "obligation": "standards optional",
+      "via": null,
+      "sample": "quartz #3, XRD Cu Kα, 40/30, RT, 2θ 10–80, op AG 9 Oct",
+      "gains": "A durable account of intent and reasoning.",
+      "out_of_reach": "Search, sharing, and any automated use.",
+      "standards": "A local convention is adequate. Two habits are worth keeping even here, because they cost nothing at the time and cannot be reconstructed later: dates in ISO 8601, and a stable identifier for every sample or run."
+    },
+    {
+      "rung": "Electronic lab notebook",
+      "icon": "💻",
+      "kind": "Timestamped, searchable, shared",
+      "tone": "border-warn-line bg-warn-bg",
+      "obligation": "standards are good practice",
+      "via": "adopt an ELN; record at the time",
+      "sample": "Sample      quartz-03\nPrepared    A. González · 2024-10-09\nInstrument  Rigaku SmartLab (inst-0217)\nConditions  Cu Kα · 40 kV / 30 mA · RT\nNote        re-polished; strong peak ~26.6° 2θ",
+      "gains": "Timestamps, search, backup, and shared access.",
+      "out_of_reach": "Extraction of a value without a human reader; the content is still prose.",
+      "standards": "An established container is preferable to an invented one. Keep the entry organised around fields you will reuse across runs."
+    },
+    {
+      "rung": "Structured capture",
+      "icon": "📋",
+      "kind": "Templated ELN, LIMS, or instrument export",
+      "tone": "border-info-line bg-info-bg",
+      "obligation": "standards are good practice",
+      "via": "template the entry; export in a disciplinary format",
+      "sample": "{ \"sample\": \"quartz-03\", \"method\": \"XRD\", \"source\": \"Cu Kα\",\n  \"voltage_kV\": 40, \"two_theta_deg\": [10, 80],\n  \"operator\": \"0000-0002-1825-0097\", \"date\": \"2024-10-09\" }",
+      "gains": "Typed fields, explicit units, and stable identifiers a parser can consume.",
+      "out_of_reach": "Meaning outside the group that chose the field names.",
+      "standards": "Use a disciplinary container where one exists (CIF, NeXus, DICOM, mzML), otherwise a documented schema over CSV or JSON. Units in UCUM, times in ISO 8601, people as ORCIDs."
+    },
+    {
+      "rung": "Machine-actionable",
+      "icon": "🔗",
+      "kind": "Croissant and PROV-O, terms bound to vocabularies",
+      "tone": "border-ok-line bg-ok-bg",
+      "obligation": "standards are the point",
+      "via": "bind terms to a vocabulary; emit the descriptors",
+      "sample": "cr:Field two_theta · dataType sc:Float · source patterns.csv#two_theta_deg\nprov:Activity xrd_scan · used quartz-03 · wasAssociatedWith 0000-0002-1825-0097",
+      "gains": "Loading and lineage traversal by tools with no prior knowledge of the source.",
+      "out_of_reach": "Nothing at this level; what remains are properties of the file itself.",
+      "standards": "Constitutive here. A shared vocabulary is what the receiving tool acts on, so a field name that appears in no vocabulary leaves the record readable and inert."
+    }
+  ],
+  "ladder_references": [
+    "Ghiringhelli2023",
+    "Kanza2017"
+  ],
+  "automation": {
+    "icon": "⚙️",
+    "title": "Semi-automated and automated laboratories",
+    "text": "Where an instrument, a sample changer, or a workflow engine writes the record as the run proceeds, the four forms collapse into one. The machine-actionable record is designed before the campaign begins and produced in real time alongside the measurements it describes. At high throughput this is the only workable arrangement, since nobody is taking notes and the graph cannot be reconstructed afterwards.",
+    "examples": "AiiDA · Nextflow with nf-prov · Snakemake · CWLProv · signac · FireWorks / atomate · instrumented sample changers",
+    "references": [
+      "Huber2020",
+      "Pizzi2016"
+    ]
+  },
+  "degrees": {
+    "lead": "The four forms above describe laboratory practice. These five degrees describe the file that comes out of it, and the two ladders meet end to end: a record that parses as JSON or RDF has already passed through all four forms. Each degree has one check that certifies it.",
+    "scope_note": "The assessment certifies the first four offline. Executable is reported as out of scope, because certifying it means round-tripping the artifact through the tool that will consume it and dereferencing every identifier over the network. The Conformance step names the check to run yourself.",
+    "rungs": [
+      {
+        "id": "well_formed",
+        "label": "Well-formed",
+        "check": "Parses as JSON or RDF",
+        "tone": "border-line bg-surface-2",
+        "means": "The file is syntactically valid, so a tool can open it at all. This is the floor, and it says nothing about whether the contents make sense."
+      },
+      {
+        "id": "schema_valid",
+        "label": "Schema-valid",
+        "check": "Validates against a schema",
+        "tone": "border-warn-line bg-warn-bg",
+        "means": "The required properties are present and correctly typed, so a consumer expecting Croissant 1.0 finds the shape it expects. A descriptor can be schema-valid and still describe nothing useful."
+      },
+      {
+        "id": "referentially_sound",
+        "label": "Referentially sound",
+        "check": "Internal references resolve; SHACL shape constraints hold",
+        "tone": "border-info-line bg-info-bg",
+        "means": "The pointers inside the file resolve: every field source names a declared file, every identifier is unique, and for a provenance graph the shape constraints hold. This is the rung hand-written descriptors most often miss."
+      },
+      {
+        "id": "grounded",
+        "label": "Grounded",
+        "check": "Values are resolvable identifiers, not free text",
+        "tone": "border-ok-line bg-ok-bg",
+        "means": "The values a consumer has to dereference resolve on their own: an SPDX licence, a DOI, an ORCID, a media type, a real checksum. A grounded file lets a stranger's tool act on it without asking you anything."
+      },
+      {
+        "id": "executable",
+        "label": "Executable",
+        "check": "A target tool ingests and acts on it",
+        "tone": "border-dashed border-line bg-surface-2",
+        "means": "The tool that will consume the data has actually loaded it. Verify this yourself before release, with mlcroissant for a descriptor or your triple store for a provenance graph."
+      }
+    ],
+    "$supports_comment": "Which rung a released artifact must reach before a dimension can claim L3. The paper defines L3 as machine-actionable enough that a workflow engine, an AutoML system, or an instrumented laboratory can ingest the dataset and traverse its lineage unattended — which is the same property the ladder measures, seen from the level axis instead of the artifact axis. Stating the correspondence is what stops the tool computing both and relating neither. `min_degree` is the lowest rung that supports the claim; a higher rung is strictly better.",
+    "supports": [
+      {
+        "dimension": "FAIRness",
+        "level": "L3",
+        "artifact": "croissant",
+        "min_degree": "grounded",
+        "why": "The descriptor is what a consumer dereferences. A pipeline can only fetch what resolves, so the licence, the dataset URL, the file URLs, and the checksums all have to be values it can dereference."
+      },
+      {
+        "dimension": "Computability",
+        "level": "L3",
+        "artifact": "croissant",
+        "min_degree": "grounded",
+        "why": "Direct load means fetching the files without asking anybody. A declared file with no resolvable contentUrl, or a checksum still set to the template placeholder, stops an unattended loader at the first step."
+      },
+      {
+        "dimension": "Provenance",
+        "level": "L3",
+        "artifact": "provo",
+        "min_degree": "referentially_sound",
+        "why": "Full pipeline provenance means the graph can be walked. A wasDerivedFrom edge pointing at a node that is not declared is not a pipeline, whatever else the record contains. Grounding the agents in ORCIDs is stronger again, and is what makes the lineage meaningful outside the project."
+      },
+      {
+        "dimension": "Pre-model Explainability",
+        "level": "L3",
+        "artifact": "provo",
+        "min_degree": "referentially_sound",
+        "why": "Tracing a released feature back to raw inputs is a traversal, so every derivation edge has to land on a declared node. An intact chain is the claim; resolving edges are the mechanism."
+      }
+    ],
+    "references": [
+      "Akhtar2024",
+      "Knublauch2017"
+    ]
+  },
+  "verification_modes": {
+    "lead": "Every row in the assessment carries one of three modes. The mode says what would confirm the row, and the tool holds itself to it: an automated row is only ticked when its validator passes, and the other two are recorded as what they are.",
+    "modes": [
+      {
+        "id": "automated",
+        "label": "automated",
+        "definition": "Confirmed by a validator that must pass. The tool runs the check and reports the result; a claim on its own does not satisfy the row.",
+        "tone": "bg-ok-bg text-ok"
+      },
+      {
+        "id": "attested",
+        "label": "attested",
+        "definition": "Your declaration, which can be accompanied by an external validator's report. Use the note field to link the report that backs it.",
+        "tone": "bg-warn-bg text-warn"
+      },
+      {
+        "id": "manual",
+        "label": "manual",
+        "definition": "A recorded human judgement, as for the adequacy of an ethics review. No validator can settle it, so the record is the judgement and who made it.",
+        "tone": "bg-idle-bg text-idle"
+      }
+    ],
+    "note": "Where a criterion cannot be checked mechanically, the honest position is to record it as an attested or human-judged statement. A verdict simulated by the tool would read as evidence to a downstream user.",
+    "references": [
+      "Clark2026"
+    ]
+  },
+  "datasheet_crosswalk": {
+    "lead": "Gebru et al. group a datasheet's questions by lifecycle stage; this document is ordered by assessment dimension, because one criterion answers one question and splitting it across stage headings would print the same answer twice. Where each of the template's groups is answered here:",
+    "groups": [
+      {
+        "group": "Motivation",
+        "question": "Why does this dataset exist, and who made it?",
+        "sections": ["Characterization", "Provenance"]
+      },
+      {
+        "group": "Composition",
+        "question": "What is in it, what does a record represent, and what is missing?",
+        "sections": ["Characterization", "Pre-model Explainability"]
+      },
+      {
+        "group": "Collection process",
+        "question": "How was it gathered, from whom, and on what basis?",
+        "sections": ["Provenance", "Ethics"]
+      },
+      {
+        "group": "Preprocessing, cleaning, labelling",
+        "question": "What was done to the raw data before release, and can it be undone?",
+        "sections": ["Provenance", "Pre-model Explainability"]
+      },
+      {
+        "group": "Uses",
+        "question": "What has it been used for, and what should it not be used for?",
+        "sections": ["Characterization", "Pre-model Explainability"]
+      },
+      {
+        "group": "Distribution",
+        "question": "How is it obtained, and under what licence and access conditions?",
+        "sections": ["FAIRness", "Computability", "Ethics"]
+      },
+      {
+        "group": "Maintenance",
+        "question": "Who keeps it, and what happens to superseded versions?",
+        "sections": ["Maintenance"]
+      }
+    ],
+    "references": [
+      "Gebru2021",
+      "DataCardsGoogle"
+    ]
+  },
+  "validation": {
+    "lead": "Validation is the last point at which a defect introduced earlier is still catchable. After release it is a correction, an erratum, and a model somebody already trained. The five categories below are what to check before you deposit; the tool runs the structural and grounding checks itself and references discipline validators for the rest.",
+    "categories": [
+      {
+        "id": "statistical",
+        "name": "Statistical",
+        "check": "Distribution summaries per variable; missingness rates; coverage across demographic, temporal, and geographic subgroups; outlier and range checks against domain-plausible bounds; class balance for classification targets.",
+        "tools": "Great Expectations · Pandera · Deequ",
+        "tone": "border-info-line bg-info-bg"
+      },
+      {
+        "id": "structural",
+        "name": "Structural",
+        "check": "Schema conformance (types, required fields, cardinality); referential integrity across linked tables; uniqueness of identifiers; format validation for dates, units, and controlled vocabularies.",
+        "tools": "Frictionless · the tool's own Croissant and PROV-O checks · SHACL for an RDF release",
+        "tone": "border-line bg-surface-2"
+      },
+      {
+        "id": "domain_expert",
+        "name": "Domain expert review",
+        "check": "Plausibility of derived variables against domain expectations; agreement between automated extraction and manual annotation on a sample; confusion analysis for NLP- or classification-derived fields.",
+        "tools": "No validator settles this. It is the reason a dimension needs a named owner.",
+        "tone": "border-warn-line bg-warn-bg"
+      },
+      {
+        "id": "bias_fairness",
+        "name": "Bias and fairness",
+        "check": "Representation parity across protected attributes; comparison of distributions before and after curation to detect introduced skew; documentation of exclusions and their demographic consequences.",
+        "tools": "Aequitas · Fairlearn",
+        "tone": "border-warn-line bg-warn-bg"
+      },
+      {
+        "id": "reproducibility",
+        "name": "Reproducibility",
+        "check": "Re-running the pipeline on a sample yields identical outputs; the PROV-O record resolves and matches the released dataset; version hashes match between the metadata and the data files.",
+        "tools": "Your own pipeline, run twice · the tool's PROV-O and checksum checks",
+        "tone": "border-ok-line bg-ok-bg"
+      }
+    ],
+    "report_note": "The output of validation is an artifact: a machine-readable report (JSON or RDF) bundled with the release and referenced from the dataset's metadata record. A failure should block the release.",
+    "pipeline_note": "Treat these as continuous obligations that run alongside the work. A responsible-AI pipeline binds each item to an artifact produced during the lifecycle — a datasheet entry, a PROV-O record, a validation report, a model card — so that the release bundle is itself the evidence of compliance.",
+    "lookup_note": "Which validator applies is field-dependent. The tool ships a seeded registry and suggests from it, and the three community registries are the authoritative lookup for everything it does not carry.",
+    "references": [
+      "Sansone2019",
+      "Knublauch2017",
+      "Raza2024"
+    ]
+  },
+  "stewardship": {
+    "lead": "The obligation continues after release. Versioning binds a change to a citable reference, so a model trained on one version stays reproducible after the dataset moves on; long-term stewardship extends that into infrastructure. This layer is the rate-limiting factor for AI adoption in science, ahead of model innovation: without it every project starts the lifecycle over, and none of the work accumulates into a reusable asset.",
+    "practices": [
+      {
+        "id": "version",
+        "name": "Version, and cite the version",
+        "what": "Mint a concept identifier that resolves to the latest release and a version identifier for each cut. A citation that names only the concept DOI cannot be reproduced once the data changes."
+      },
+      {
+        "id": "deprecate",
+        "name": "Keep superseded versions resolvable",
+        "what": "Keep a superseded version resolvable and marked as superseded. A model trained on v1 stays reproducible only while v1 still resolves, so removing it breaks work that was correct when it was done."
+      },
+      {
+        "id": "errata",
+        "name": "Publish a route for errata",
+        "what": "Name where a user reports a suspected error, and who answers. Discovering a problem and having nowhere to report it is how a known defect stays in circulation."
+      },
+      {
+        "id": "cadence",
+        "name": "State the cadence",
+        "what": "Say how often the dataset is expected to change, even if the answer is never. A downstream user is deciding whether to pin a version or track the latest, and cannot without this."
+      },
+      {
+        "id": "migration",
+        "name": "Plan for format migration",
+        "what": "Formats outlive neither their software nor their institutions. Note who is responsible for migrating the release if its format falls out of support, and what the commitment behind that is."
+      }
+    ],
+    "references": [
+      "LawrenceMontgomery2024",
+      "Clark2026"
+    ]
+  },
+  "wh_questions": [
+    {
+      "q": "who",
+      "record": "People and instruments, by identifier — ORCID, ROR, an instrument id — not initials.",
+      "lands": "PROV-O agent · datasheet"
+    },
+    {
+      "q": "what",
+      "record": "The sample or subject, and each measured variable with its unit.",
+      "lands": "Croissant record sets and fields"
+    },
+    {
+      "q": "when",
+      "record": "Acquisition date, and the time window the data covers.",
+      "lands": "PROV-O activity · datasheet"
+    },
+    {
+      "q": "where",
+      "record": "Instrument, laboratory, site, or the machine a job ran on.",
+      "lands": "PROV-O activity · datasheet"
+    },
+    {
+      "q": "why",
+      "record": "The question the data was collected to answer, and the uses it does not support.",
+      "lands": "Datasheet · Croissant rai: annotations"
+    },
+    {
+      "q": "how",
+      "record": "Settings, parameters, software and versions, and every processing step.",
+      "lands": "PROV-O activity · Croissant encodingFormat"
+    }
+  ],
+  "wh_questions_references": [
+    "Ghiringhelli2023"
+  ],
+  "documentation_inputs": {
+    "layers": [
+      {
+        "layer": "Datasheet / data card",
+        "checked_by_short": "a person reads it — no verifier",
+        "tone": "border-line bg-surface-2",
+        "checked_by": "No official verifier exists for prose: a person reads it. That is why most of this layer’s rows are attested or human-judged — nothing mechanical settles whether a disclosure is adequate.",
+        "sources": [
+          "Protocol or README",
+          "Consent form, ethics approval",
+          "Licence decision",
+          "Coverage and limitations notes",
+          "Intended and out-of-scope uses"
+        ]
+      },
+      {
+        "layer": "Croissant descriptor",
+        "checked_by_short": "MLCommons Croissant schema · mlcroissant",
+        "tone": "border-info-line bg-info-bg",
+        "checked_by": "Verified against the MLCommons Croissant schema, then for referential soundness — every field source resolving to a declared file — then for grounding. `mlcroissant` is the reference implementation, and running the descriptor through it is what certifies a loader can act on it.",
+        "sources": [
+          "File list, formats, checksums",
+          "Codebook: variables, types, units",
+          "Controlled-vocabulary mappings",
+          "Licence, DOI, landing page"
+        ]
+      },
+      {
+        "layer": "PROV-O record",
+        "checked_by_short": "W3C SHACL shapes · PROV-O profile",
+        "tone": "border-ok-line bg-ok-bg",
+        "checked_by": "Verified with SHACL, the W3C shape-constraint language, against a PROV-O profile. The shapes assert what presence checks cannot — an activity with no inputs, a derivation edge pointing at an undeclared node. Deep validate on the Provenance tab runs them.",
+        "sources": [
+          "Run log or ELN entries",
+          "Inputs and outputs per step",
+          "Software, versions, parameters",
+          "Operator ORCIDs and roles"
+        ]
+      }
+    ],
+    "verification_note": "Two of the three layers have an official verifier and one does not, which is why the assessment marks each row automated, attested, or human-judged, so the standard of proof is stated per row. Verifiers for the data itself are discipline-specific — checkCIF for a CIF, CF-checker for NetCDF, the BIDS Validator for an imaging tree — and the Validators page suggests them from what you declare.",
+    "grounding": {
+      "label": "Grounded by",
+      "schemes": [
+        "ORCID",
+        "ROR",
+        "RRID",
+        "PIDINST",
+        "DOI",
+        "SPDX",
+        "UCUM",
+        "LOINC / SNOMED",
+        "EMMO"
+      ],
+      "note": "Identifiers and vocabularies that turn a field from a string a reader interprets into a value a consumer can resolve. They ground all three layers."
+    },
+    "references": [
+      "Gebru2021",
+      "DataCardsGoogle",
+      "Akhtar2024",
+      "W3CPROVO2013"
+    ]
+  },
+  "levels": {
+    "lead": "Every worksheet row is tagged with the readiness level it belongs to. The levels are cumulative, so a row tagged L1 is required at every tier, L2 from Faithful upward, and L3 only for Task-ready. Names and DRL bands come from the assessment matrix; the sentence is what each level is for. The levels measure machine-actionability, which is independent of the governance a dataset needs: sensitive data carries access controls at every level, and clearing them does not raise the level.",
+    "meaning": {
+      "L1": "A person can find the dataset, obtain it, and know what they are allowed to do with it. The consumer is a reader.",
+      "L2": "A pipeline can load it once someone has prepared the load: schema, distributions, and transformations are all declared, and a person still mediates the final step.",
+      "L3": "An automated or semi-automated machine-learning workflow can consume it without anyone preparing the data first — a workflow engine, an AutoML system, or an instrumented laboratory. Some pipelines automate a few steps and some run end to end; either way, the dataset is not what stops them. Verification is not optional at this tier: an unchecked descriptor cannot support an unattended load whatever it claims, so the L3 claims on FAIRness, Provenance, Pre-model Explainability, and Computability are bounded by how far the released artifacts climb the ladder above."
+    }
+  },
+  "run_log_fields": [
+    "Run or sample identifier",
+    "Date and time (ISO 8601, with timezone)",
+    "Operator (ORCID) and institution (ROR)",
+    "Instrument or machine, with its identifier",
+    "Method or code, with version",
+    "Settings and parameters, with units",
+    "Inputs consumed (file, sample, or upstream run id)",
+    "Outputs produced (file names as written)",
+    "Anything that went wrong, or differed from protocol"
+  ],
+  "ontology_examples": [
+    {
+      "title": "A column that looks fine and is not",
+      "as_collected": "age (yrs)",
+      "problem": "The unit is in the column name, where no parser will look for it; \"age\" at what moment is unstated; and the type is whatever the file happens to contain.",
+      "actionable": "name: age_at_collection · dataType: sc:Integer · unit: UCUM `a` · description: \"Participant age in whole years at the date of sample collection.\"",
+      "why": "Units and definitions belong in the schema, where a parser will look for them. The rename is the smallest possible change that makes the column comparable to someone else's."
+    },
+    {
+      "title": "A local code that nobody else can read",
+      "as_collected": "status: pos / neg / unk",
+      "problem": "Three strings whose meaning lives in the analyst's head. A second dataset using `positive` / `negative` cannot be joined to this one without a human deciding they match.",
+      "actionable": "An enumerated value set shipped with the data: each code, its definition, and — where one exists — the term it maps to in a shared vocabulary (SNOMED CT, an OBO ontology, or a project vocabulary published with a stable URI).",
+      "why": "Local codes are fine. Local codes without a published mapping are a private language. The mapping is the deliverable."
+    },
+    {
+      "title": "A disciplinary record, end to end",
+      "as_collected": "quartz #3, XRD Cu Kα, 40/30, RT, 2θ 10–80, op AG 9 Oct",
+      "problem": "Every element is a local abbreviation: the sample, the radiation source, the operating settings, the operator, and the date all need a person to expand them.",
+      "actionable": "Structure: sample-id, method, source, voltage_kV, current_mA, two_theta_deg, temperature, operator ORCID, ISO date. Encode: the structure in CIF, the scan in NeXus. Map: each quantity to its EMMO concept. Package: columns as cr:Field with dataType and source; the scan as a prov:Activity that used the sample and wasAssociatedWith the operator.",
+      "why": "One observation, four standards, and nothing invented: the disciplinary format carries the physics, the ontology carries the meaning, and Croissant and PROV-O carry the loadability and the lineage."
+    }
+  ],
+  "ontology_examples_references": [
+    "Ghiringhelli2023",
+    "Blatter2022"
+  ],
+  "burden_reduction": [
+    {
+      "effect": "removes",
+      "title": "Let the workflow engine write it",
+      "what": "Run the analysis through an engine that records inputs, steps, and outputs as a side effect. The provenance graph comes out as a by-product of the run.",
+      "examples": "AiiDA · Nextflow with nf-prov · Snakemake · CWLProv · signac · FireWorks / atomate",
+      "references": [
+        "Huber2020",
+        "Pizzi2016"
+      ]
+    },
+    {
+      "effect": "removes",
+      "title": "Use a format that carries its own metadata",
+      "what": "Disciplinary containers store acquisition parameters inside the file, so the metadata travels with the data.",
+      "examples": "NeXus · DICOM · CIF · mzML · FITS",
+      "references": [
+        "Hall1991",
+        "Ghiringhelli2023"
+      ]
+    },
+    {
+      "effect": "removes",
+      "title": "Let the repository parse it",
+      "what": "Some repositories extract structured metadata directly from raw code output — deposit what the code wrote and the description is derived for you.",
+      "examples": "NOMAD Metainfo parsers",
+      "references": [
+        "Ghiringhelli2023"
+      ]
+    },
+    {
+      "effect": "reduces",
+      "title": "Capture once, at the bench",
+      "what": "Instruments rarely export every state variable. An ELN or LIMS is often the only place sample-state metadata exists at all, and it is browser-accessible from wherever the work happens.",
+      "examples": "eLabFTW · RSpace · openBIS · Chemotion · LabArchives · Benchling",
+      "references": [
+        "Kanza2017"
+      ]
+    },
+    {
+      "effect": "reduces",
+      "title": "Replace free text with identifiers",
+      "what": "Each identifier converts an ambiguous string into something resolvable, deduplicable, and comparable across datasets — at no extra effort over typing the name.",
+      "examples": "ORCID (people) · ROR (institutions) · RRID (reagents, software, instruments) · PIDINST (instruments) · SPDX (licences) · DOI (upstream data)",
+      "references": [
+        "Stocker2020"
+      ]
+    },
+    {
+      "effect": "reduces",
+      "title": "Start from a template",
+      "what": "A constrained form with the right fields already named beats free text, for the same reason this tool's builders beat hand-written JSON.",
+      "examples": "CEDAR Workbench (ontology autocompletion) · ISA-Tab / ISA-JSON · LinkML · DataHarmonizer · Frictionless Data Package",
+      "references": [
+        "Musen2015",
+        "Sansone2012"
+      ]
+    },
+    {
+      "effect": "reduces",
+      "title": "Look the term up first",
+      "what": "Before coining a field name or a code, search the vocabularies. A term that already exists comes with a definition, a URI, and everyone who already uses it.",
+      "examples": "EBI OLS · BioPortal · ZOOMA · TIB Terminology Service · EMMO · OPTIMADE · LOINC / SNOMED / UCUM",
+      "references": [
+        "Ghiringhelli2023"
+      ]
+    },
+    {
+      "effect": "reduces",
+      "title": "Package it once",
+      "what": "A single container for the data, its metadata, and the run record, so the pieces cannot be separated in transit.",
+      "examples": "RO-Crate · Workflow-Run RO-Crate",
+      "references": [
+        "SoilandReyes2022"
+      ]
+    },
+    {
+      "effect": "reduces",
+      "title": "Reuse the data management plan",
+      "what": "A machine-actionable DMP written at proposal time already contains much of what the deposit will ask for. Written once, read twice.",
+      "examples": "RDA DMP Common Standard · DMPTool · Argos",
+      "references": []
+    },
+    {
+      "effect": "reduces",
+      "title": "Have a model structure existing notes",
+      "what": "A generative model can turn a pile of free-text notes into draft structured records. It is a probabilistic generator: the same prompt can produce different output, and it can be wrong. Record the model, version, parameters, and the exact prompt, and check every field. That buys transparency; reproducibility stays out of reach for a stochastic generator.",
+      "examples": "Any general-purpose assistant, with the run documented as a method",
+      "references": [
+        "Mitchell2019"
+      ]
+    }
+  ]
+}

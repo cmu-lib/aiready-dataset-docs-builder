@@ -1,0 +1,256 @@
+{
+  "$comment": "Controlled vocabularies referenced from matrix.json criteria and pathways.json sub-domain overlays via 'vocabulary_key'. Sourced from Tables 4, 7, 9, 11, and 14 of González-Espinoza et al. (2026); each 'source' below names the table number in the current draft together with its LaTeX label, because float numbers move whenever a section is inserted and the label does not; the materials-science entries added in 0.2.0 come from the CMU Libraries materials RDM guidance and the sources it cites. A value carrying 'not_applicable': true declares that the criterion does not apply to this dataset rather than answering it — a documented not-applicable attestation, which the assessment reports as its own cell state instead of as a satisfied requirement. 'Custom' is an implicit option in every list — the UI exposes a free-text fallback so the schema stays open-world.",
+  "version": "0.9.0",
+  "vocabularies": {
+    "licenses": {
+      "label": "License",
+      "source": "Table 4 (tab:release-components), paper §2.6",
+      "values": [
+        { "id": "CC-BY-4.0", "label": "Creative Commons Attribution 4.0", "url": "https://creativecommons.org/licenses/by/4.0/" },
+        { "id": "CC-BY-SA-4.0", "label": "Creative Commons Attribution-ShareAlike 4.0", "url": "https://creativecommons.org/licenses/by-sa/4.0/" },
+        { "id": "CC-BY-NC-4.0", "label": "Creative Commons Attribution-NonCommercial 4.0", "url": "https://creativecommons.org/licenses/by-nc/4.0/" },
+        { "id": "CC0-1.0", "label": "Creative Commons Zero (Public Domain)", "url": "https://creativecommons.org/publicdomain/zero/1.0/" },
+        { "id": "ODbL-1.0", "label": "Open Data Commons Open Database License", "url": "https://opendatacommons.org/licenses/odbl/1-0/" },
+        { "id": "MIT", "label": "MIT License (code)", "url": "https://opensource.org/license/mit" },
+        { "id": "Apache-2.0", "label": "Apache License 2.0 (code)", "url": "https://www.apache.org/licenses/LICENSE-2.0" },
+        { "id": "All-rights-reserved", "label": "All rights reserved (closed)" }
+      ]
+    },
+    "formats_tabular": {
+      "label": "Tabular formats",
+      "source": "Table 7 (tab:ml-formats), paper",
+      "$comment": "'mime' and 'ext' seed the Croissant descriptor's encodingFormat and the template file name. Not every scientific format has an IANA-registered media type — 'text/csv' and 'text/tab-separated-values' are registered, the vendor and 'x-' types are conventional. Treat these as suggestions the user can override.",
+      "values": [
+        { "id": "Parquet", "label": "Apache Parquet (columnar, compressed, typed)", "mime": "application/vnd.apache.parquet", "ext": "parquet" },
+        { "id": "Arrow", "label": "Apache Arrow (in-memory columnar)", "mime": "application/vnd.apache.arrow.file", "ext": "arrow" },
+        { "id": "CSV", "label": "CSV (lowest-common-denominator fallback)", "mime": "text/csv", "ext": "csv" },
+        { "id": "TSV", "label": "TSV", "mime": "text/tab-separated-values", "ext": "tsv" }
+      ]
+    },
+    "formats_array": {
+      "label": "Multidimensional / scientific-array formats",
+      "source": "Table 7 (tab:ml-formats), paper",
+      "values": [
+        { "id": "HDF5", "label": "HDF5", "mime": "application/x-hdf5", "ext": "h5" },
+        { "id": "NetCDF", "label": "NetCDF", "mime": "application/x-netcdf", "ext": "nc" },
+        { "id": "Zarr", "label": "Zarr", "mime": "application/vnd.zarr", "ext": "zarr" },
+        { "id": "ROOT", "label": "ROOT (high-energy physics)", "mime": "application/x-root", "ext": "root" }
+      ]
+    },
+    "formats_imaging": {
+      "label": "Imaging / volumetric formats",
+      "source": "Table 7 (tab:ml-formats), paper",
+      "values": [
+        { "id": "DICOM", "label": "DICOM", "mime": "application/dicom", "ext": "dcm" },
+        { "id": "NIfTI", "label": "NIfTI", "mime": "application/x-nifti", "ext": "nii.gz" },
+        { "id": "BIDS", "label": "BIDS-organized directory" }
+      ]
+    },
+    "formats_clinical": {
+      "label": "Laboratory / clinical controlled vocabularies",
+      "guidance": "The controlled vocabularies clinical and laboratory fields are mapped to. Without them, data from two hospitals cannot be aligned however well each is documented on its own.",
+      "source": "Table 7 (tab:ml-formats), paper",
+      "values": [
+        { "id": "LOINC", "label": "LOINC (lab observations)" },
+        { "id": "SNOMED-CT", "label": "SNOMED CT (clinical terminology)" },
+        { "id": "UCUM", "label": "UCUM (units of measure)" },
+        { "id": "ICD-10", "label": "ICD-10 / ICD-11" },
+        { "id": "RxNorm", "label": "RxNorm (medications)" }
+      ]
+    },
+    "formats_other": {
+      "label": "Other formats",
+      "source": "Table 7 (tab:ml-formats), paper",
+      "values": [
+        { "id": "JSONL", "label": "JSONL (text / records)", "mime": "application/jsonl", "ext": "jsonl" },
+        { "id": "WAV", "label": "WAV (audio)", "mime": "audio/wav", "ext": "wav" },
+        { "id": "FLAC", "label": "FLAC (audio)", "mime": "audio/flac", "ext": "flac" },
+        { "id": "OGG", "label": "OGG (audio)", "mime": "audio/ogg", "ext": "ogg" }
+      ]
+    },
+    "repositories_l1": {
+      "label": "L1 / Pathway A repositories",
+      "source": "Table 4 (tab:release-components) + Table 13 (tab:assessment-matrix), paper",
+      "values": [
+        { "id": "Figshare", "label": "Figshare" },
+        { "id": "Zenodo", "label": "Zenodo" },
+        { "id": "Dryad", "label": "Dryad" },
+        { "id": "OSF", "label": "OSF" },
+        { "id": "Institutional", "label": "Institutional repository" },
+        { "id": "GitHub", "label": "GitHub (with DOI minted via Zenodo)" }
+      ]
+    },
+    "repositories_l2": {
+      "label": "L2 / Pathway B repositories",
+      "source": "Table 4 (tab:release-components) + Table 13 (tab:assessment-matrix), paper",
+      "values": [
+        { "id": "HuggingFace", "label": "Hugging Face Datasets" },
+        { "id": "Kaggle", "label": "Kaggle" },
+        { "id": "OpenML", "label": "OpenML" },
+        { "id": "Dataverse", "label": "Dataverse" },
+        { "id": "Dryad", "label": "Dryad" },
+        { "id": "Zenodo", "label": "Zenodo (for larger datasets)" }
+      ]
+    },
+    "repositories_l3_general": {
+      "label": "L3 / Pathway C generic repositories",
+      "source": "Table 4 (tab:release-components), paper §2.6",
+      "values": [
+        { "id": "PhysioNet", "label": "PhysioNet" },
+        { "id": "NIHDataCommons", "label": "NIH Data Commons" },
+        { "id": "dbGaP", "label": "dbGaP" },
+        { "id": "ICPSR", "label": "ICPSR" },
+        { "id": "GenBank", "label": "GenBank" },
+        { "id": "PDB", "label": "Protein Data Bank" },
+        { "id": "PANGAEA", "label": "PANGAEA" }
+      ]
+    },
+    "repositories_l3_bridge2ai": {
+      "label": "L3 / Pathway C Bridge2AI Grand Challenges",
+      "source": "Clark et al. 2026, named in [1]",
+      "values": [
+        { "id": "CHoRUS", "label": "CHoRUS — Bridge2AI Clinical Care Grand Challenge" },
+        { "id": "CM4AI", "label": "CM4AI — Bridge2AI Cell Maps for AI Grand Challenge" },
+        { "id": "Bridge2AIVoice", "label": "Bridge2AI-Voice — Voice as a Biomarker of Health Grand Challenge" },
+        { "id": "AIREADI", "label": "AI-READI — Artificial Intelligence Ready and Equitable Atlas for Diabetes Insights Grand Challenge" }
+      ]
+    },
+    "repositories_l3_materials": {
+      "label": "L3 / Pathway C materials-science repositories",
+      "source": "Documenting research data in the material sciences (CMU Libraries RDM, Aug 2026), slide 12",
+      "values": [
+        { "id": "NOMAD", "label": "NOMAD — FAIR repository and archive for computational materials data", "url": "https://nomad-lab.eu/" },
+        { "id": "MaterialsCloud", "label": "Materials Cloud Archive — AiiDA-native, provenance-preserving records", "url": "https://archive.materialscloud.org/" },
+        { "id": "OQMD", "label": "OQMD — Open Quantum Materials Database", "url": "https://oqmd.org/" },
+        { "id": "ICSD", "label": "ICSD — Inorganic Crystal Structure Database (subscription; check redistribution terms)", "url": "https://icsd.products.fiz-karlsruhe.de/" },
+        { "id": "Zenodo", "label": "Zenodo (generalist fallback — no domain repository accepts the record type)", "url": "https://zenodo.org/" },
+        { "id": "Figshare", "label": "Figshare (generalist fallback)", "url": "https://figshare.com/" },
+        { "id": "Dryad", "label": "Dryad (generalist fallback)", "url": "https://datadryad.org/" }
+      ]
+    },
+    "formats_materials": {
+      "label": "Materials-science encoding standards",
+      "source": "Materials RDM slides 16 and 28; standards reviewed in Ghiringhelli et al. (2023)",
+      "values": [
+        { "id": "CIF", "label": "CIF — Crystallographic Information Framework (IUCr; crystal structures)", "url": "https://www.iucr.org/resources/cif", "mime": "chemical/x-cif", "ext": "cif" },
+        { "id": "NeXus", "label": "NeXus — neutron, X-ray, and muon experiment data (HDF5-backed)", "url": "https://www.nexusformat.org/", "mime": "application/x-hdf5", "ext": "nxs" },
+        { "id": "CML", "label": "CML — Chemical Markup Language (molecules and reactions)", "mime": "chemical/x-cml", "ext": "cml" },
+        { "id": "HDF5", "label": "HDF5 (large arrays; the container underneath NeXus)", "mime": "application/x-hdf5", "ext": "h5" },
+        { "id": "JSON", "label": "JSON (structured records, human- and machine-readable)", "mime": "application/json", "ext": "json" },
+        { "id": "YAML", "label": "YAML (configuration and parameter records)", "mime": "application/yaml", "ext": "yaml" },
+        { "id": "XML", "label": "XML (schema-validated records)", "mime": "application/xml", "ext": "xml" }
+      ]
+    },
+    "materials_interoperability": {
+      "label": "Materials interoperability layer (ontology / API / schema)",
+      "source": "Materials RDM slides 17–18; EMMO (EMMC, 2021), OPTIMADE (Andersen et al., 2021)",
+      "values": [
+        { "id": "EMMO", "label": "EMMO — Elementary Multiperspective Material Ontology (maps code-specific field names onto shared concepts)", "url": "https://emmo-repo.github.io/" },
+        { "id": "OPTIMADE", "label": "OPTIMADE — common query API across materials databases", "url": "https://www.optimade.org/" },
+        { "id": "NOMADMetainfo", "label": "NOMAD Metainfo — repository-native schema for computational materials data", "url": "https://nomad-lab.eu/" },
+        { "id": "LocalVocabulary", "label": "Local controlled vocabulary documented with the dataset" }
+      ]
+    },
+    "provenance_engines": {
+      "label": "A-priori provenance capture (workflow engine / ELN)",
+      "source": "Materials RDM slides 19–23; AiiDA (Huber et al., 2020), RO-Crate (Ó Carragáin et al., 2019)",
+      "values": [
+        { "id": "AiiDA", "label": "AiiDA — provenance-by-construction workflow engine", "url": "https://www.aiida.net/" },
+        { "id": "FireWorks", "label": "FireWorks / atomate — high-throughput workflow management", "url": "https://materialsproject.github.io/fireworks/" },
+        { "id": "signac", "label": "signac — data and workflow management for computational studies", "url": "https://signac.io/" },
+        { "id": "NextflowProv", "label": "Nextflow with nf-prov — PROV output emitted by the run", "url": "https://github.com/nextflow-io/nf-prov" },
+        { "id": "CWLProv", "label": "CWLProv — provenance profile for CWL workflow runs", "url": "https://w3id.org/cwl/prov/" },
+        { "id": "WorkflowRunROCrate", "label": "Workflow-Run RO-Crate — packaged run provenance", "url": "https://www.researchobject.org/workflow-run-crate/" },
+        { "id": "ELN", "label": "ELN / LIMS entry captured at acquisition time (bench work)" }
+      ]
+    },
+    "croissant_datatypes": {
+      "label": "Croissant field data types",
+      "source": "Croissant 1.0 specification (MLCommons); schema.org type vocabulary",
+      "values": [
+        { "id": "sc:Text", "label": "Text (sc:Text)" },
+        { "id": "sc:Integer", "label": "Integer (sc:Integer)" },
+        { "id": "sc:Float", "label": "Float (sc:Float)" },
+        { "id": "sc:Boolean", "label": "Boolean (sc:Boolean)" },
+        { "id": "sc:Date", "label": "Date (sc:Date)" },
+        { "id": "sc:URL", "label": "URL (sc:URL)" }
+      ]
+    },
+    "consent_basis": {
+      "label": "Consent basis",
+      "guidance": "The basis on which the data may be used at all, and the ceiling on everything above it: no later level can license a use the consent never covered. Documented for collection and for secondary use, granular where the collection allowed it (Table 9).",
+      "source": "Table 9 (tab:ethics-requirements), paper",
+      "values": [
+        { "id": "documented_collection", "label": "Documented collection consent", "note": "Consent covering the collection itself. Sufficient to hold and analyse the data for the study it was gathered for, and silent about anything else." },
+        { "id": "documented_secondary_use", "label": "Documented consent covering secondary use", "note": "Consent that explicitly extends beyond the original study. This is what allows a deposit to be reused by someone who was not party to the collection." },
+        { "id": "granular_per_use", "label": "Granular per-use consent", "note": "Participants chose which uses they permit, use by use. The strongest basis, and the one that most constrains what a downstream user may do without checking." },
+        { "id": "broad_research_use", "label": "Broad consent for research use", "note": "Consent to unspecified future research, usually within a stated domain. Common in biobanking; check whether your intended use falls inside the stated scope." },
+        { "id": "waiver_of_consent", "label": "IRB-approved waiver of consent", "note": "An IRB determined that consent was not required, typically for minimal-risk secondary use of existing records. The waiver is the evidence, so record its identifier." },
+        { "id": "NA_non_human_subjects", "label": "Not applicable — non-human-subjects data", "not_applicable": true, "note": "No human subjects, so there is no consent to obtain. The assessment records this as a statement, and reports it as one." },
+        { "id": "NA_public_data", "label": "Not applicable — already-public data", "not_applicable": true, "note": "Already public at the point of collection. Note that public does not mean unrestricted: the source's licence still governs redistribution." }
+      ]
+    },
+    "de_id_methods": {
+      "label": "De-identification methods",
+      "guidance": "Naming the method, with its parameters, is the requirement — not the fact that something was done. Removal or transformation of direct *and* indirect identifiers, with the method recorded (Table 9).",
+      "source": "Table 9 (tab:ethics-requirements), paper §§4.3, 6.4",
+      "values": [
+        { "id": "HIPAA-Safe-Harbor", "label": "HIPAA Safe Harbor", "note": "Remove the eighteen identifier categories HIPAA enumerates. Mechanical and auditable, and it does not reason about re-identification risk from what remains." },
+        { "id": "HIPAA-Expert-Determination", "label": "HIPAA Expert Determination", "note": "A qualified expert certifies the re-identification risk is very small. More permissive than Safe Harbor and it requires naming the expert and the report date." },
+        { "id": "k-anonymity", "label": "k-anonymity", "note": "Every record is indistinguishable from at least k\u22121 others on the quasi-identifiers. Record the k: the guarantee is meaningless without it." },
+        { "id": "l-diversity", "label": "l-diversity", "note": "Extends k-anonymity so each equivalence class holds at least l distinct sensitive values, closing the case where all k records share the same diagnosis." },
+        { "id": "t-closeness", "label": "t-closeness", "note": "Extends l-diversity so the distribution of the sensitive attribute within a class is close to its distribution overall. Record the t." },
+        { "id": "differential-privacy", "label": "Differential privacy", "note": "A formal bound on what any single record contributes to a released statistic. Record the epsilon, and whether the budget is per query or total." },
+        { "id": "pseudonymization", "label": "Pseudonymization with key escrow", "note": "Direct identifiers replaced by keys held separately. Re-identification remains possible by design, so it functions as an access control." },
+        { "id": "none-needed", "label": "None needed (non-personal data)", "not_applicable": true, "note": "No personal data, so nothing to de-identify. Recorded as an answer in its own right." }
+      ]
+    },
+    "access_governance": {
+      "label": "Access governance tier",
+      "guidance": "The controls on who may use the data and under what terms. This is a separate axis from the readiness level: sensitive data carries controls at L1 as much as at L3, and clearing them does not raise the level (Table 9, §6.2).",
+      "source": "Table 9 (tab:ethics-requirements), paper",
+      "values": [
+        { "id": "open", "label": "Open access", "note": "Anyone can download without identifying themselves. The only tier that imposes no cost on a downstream user, and the only one available where consent did not anticipate access control." },
+        { "id": "registered", "label": "Registered (account-gated, no review)", "note": "An account, but no review. Deters bulk scraping and gives a contactable audit trail without gatekeeping the science." },
+        { "id": "restricted", "label": "Restricted (DUA required)", "note": "A data-use agreement must be signed before access. The agreement is what binds the user, so name it." },
+        { "id": "controlled", "label": "Controlled (DAC review required)", "note": "A committee reviews each request against the permitted scope. Appropriate where consent is narrow or the re-identification risk is real, and the slowest for legitimate reuse." },
+        { "id": "embargoed", "label": "Embargoed (open after a fixed date)", "note": "Open, later. State the date and what happens on it, or an embargo becomes indefinite by inattention." }
+      ]
+    },
+    "ethics_oversight": {
+      "label": "Ethics oversight",
+      "guidance": "Candidate phrasings for the oversight evidence that travels with the dataset. Suggestions, and the list is open: the criterion asks for the approving body, the protocol identifier, the date, the scope of permitted use, and the current status, which no single term captures.",
+      "source": "Table 9 (tab:ethics-requirements), paper",
+      "values": [
+        { "id": "IRB-approved", "label": "IRB approved" },
+        { "id": "IRB-exempt", "label": "IRB exempt" },
+        { "id": "ethics-committee", "label": "Reviewed by equivalent ethics committee" },
+        { "id": "data-access-committee", "label": "Reviewed by data access committee (DAC)" },
+        { "id": "NA-non-human-subjects", "label": "Not applicable — non-human-subjects data" }
+      ]
+    },
+    "stakeholder_roles": {
+      "label": "Stakeholder roles (CRediT-style)",
+      "guidance": "Readiness is a multi-role activity, and the roles map to dimensions. In a small team one person carries several — sometimes all of them — and what matters is that every dimension has a named owner before acquisition begins; the roles need not divide one to one (Table 14, §6.3).",
+      "source": "Table 14 (tab:stakeholder-roles), paper",
+      "values": [
+        { "id": "data_steward", "label": "Data steward — FAIRness, Computability", "note": "Owns FAIRness and Computability. Metadata standards, repository workflows, identifier assignment — the person who knows what the deposit will be asked for." },
+        { "id": "domain_expert", "label": "Domain expert — Characterization, Ethics", "note": "Owns Characterization and Ethics. Subject-matter knowledge, controlled vocabularies, and the edge cases only someone close to the data can judge." },
+        { "id": "data_engineer", "label": "Data engineer — Provenance, Sustainability", "note": "Owns Provenance and Sustainability. Pipelines, workflow systems, storage and compute accounting — the person whose run log becomes the PROV record." },
+        { "id": "ml_practitioner", "label": "ML practitioner — Pre-model Explainability, downstream fit", "note": "Owns Pre-model Explainability and downstream fit. Feature engineering, bias auditing, and consuming provenance from the model side." },
+        { "id": "governance_officer", "label": "Governance officer — Ethics, ongoing oversight", "note": "Owns Ethics and ongoing oversight. Consent and licensing, access committees, regulatory compliance — the role that answers a request years later." }
+      ]
+    },
+    "data_centric_interventions": {
+      "label": "Data-centric green-AI interventions",
+      "guidance": "Interventions on the dataset that cut the compute needed to reach a target performance, without touching the architecture. Each is reported with the metric that shows it worked (Table 11).",
+      "source": "Table 11 (tab:green-ai-interventions), paper",
+      "values": [
+        { "id": "curation", "label": "Curation (remove low-signal records)", "note": "Removing low-signal or redundant records that inflate training cost. Reported as records removed, and performance at a matched compute budget." },
+        { "id": "distillation", "label": "Distillation (compress while preserving coverage)", "note": "Compressing a corpus while preserving its distributional coverage. Reported as a compression ratio, and the accuracy gap against the full corpus." },
+        { "id": "active_learning", "label": "Active learning (prioritize informative samples)", "note": "Choosing which samples to label next so fewer are needed to reach a target. Reported as labels or tokens consumed per accuracy point." },
+        { "id": "curriculum", "label": "Curriculum design (order examples easy → hard)", "note": "Ordering examples from easy to hard so training converges in fewer steps. Reported as steps to convergence, and final performance." }
+      ]
+    }
+  }
+}

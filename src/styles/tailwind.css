@@ -1,0 +1,274 @@
+@import "tailwindcss";
+
+/* =============================================================================
+   Design tokens (from the design mockup). Edit these to restyle the whole app.
+   Light is the default; dark is applied by OS preference and overridden by the
+   in-app theme toggle, which stamps data-theme on <html>.
+   ========================================================================== */
+:root {
+  --ground: #f7f6f5;
+  --surface: #ffffff;
+  --surface-2: #faf9f8;
+  --ink: #17181a;
+  --muted: #6d6e71;
+  --faint: #8f9092;
+  --line: #e6e4e2;
+  --accent: #c41230;     /* Carnegie Red — brand, used sparingly */
+  --brand-btn: #17181a;  /* primary action = ink, not red */
+  /* Guidance artifacts get their own action colour, distinct from the ink
+     primary and the red accent. Reuses the existing blue rather than adding a
+     hue; the foreground flips with the theme so contrast holds both ways. */
+  --guide-btn: #0a72b0; --guide-btn-fg: #ffffff;
+  --link: #0a72b0;
+  /* Paper grain on the page ground. Kept near-invisible: it should read as a
+     surface rather than a pattern, and cards sit on solid --surface so text is
+     never laid over it. */
+  --grain: rgba(23, 24, 26, 0.030);
+
+  --ok: #14804a;   --ok-bg: #e7f3ec;   --ok-line: #bfe0cd;
+  --bad: #c4123a;  --bad-bg: #fbe8ec;  --bad-line: #f2c4cf;
+  --warn: #97650a; --warn-bg: #fbf0d9; --warn-line: #ecd6a3;
+  --info: #0a72b0; --info-bg: #e7f1f8; --info-line: #c3ddef;
+  --idle: #7c7d80; --idle-bg: #eeecea; --idle-line: #ddd9d5;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --ground: #131315; --surface: #1b1b1e; --surface-2: #202023;
+    --ink: #ececee; --muted: #a2a3a6; --faint: #7f8083; --line: #2d2d31;
+    --accent: #e8536b; --brand-btn: #ececee; --link: #5cb4ea;
+    --guide-btn: #5cb4ea; --guide-btn-fg: #0d1b24;
+    --grain: rgba(236, 236, 238, 0.035);
+    --ok: #58c48c; --ok-bg: #14271d; --ok-line: #235939;
+    --bad: #f0808f; --bad-bg: #2a161b; --bad-line: #6d2836;
+    --warn: #e3b65a; --warn-bg: #2a2213; --warn-line: #5f4c1f;
+    --info: #5cb4ea; --info-bg: #14232e; --info-line: #245068;
+    --idle: #9a9a9e; --idle-bg: #232326; --idle-line: #3a3a3e;
+  }
+}
+
+:root[data-theme="dark"] {
+  --ground: #131315; --surface: #1b1b1e; --surface-2: #202023;
+  --ink: #ececee; --muted: #a2a3a6; --faint: #7f8083; --line: #2d2d31;
+  --accent: #e8536b; --brand-btn: #ececee; --link: #5cb4ea;
+  --guide-btn: #5cb4ea; --guide-btn-fg: #0d1b24;
+  --grain: rgba(236, 236, 238, 0.035);
+  --ok: #58c48c; --ok-bg: #14271d; --ok-line: #235939;
+  --bad: #f0808f; --bad-bg: #2a161b; --bad-line: #6d2836;
+  --warn: #e3b65a; --warn-bg: #2a2213; --warn-line: #5f4c1f;
+  --info: #5cb4ea; --info-bg: #14232e; --info-line: #245068;
+  --idle: #9a9a9e; --idle-bg: #232326; --idle-line: #3a3a3e;
+}
+
+/* Expose the runtime variables to Tailwind so bg-surface / text-ink /
+   border-line / text-accent / bg-ok-bg … exist and follow the theme. */
+@theme inline {
+  --color-ground: var(--ground);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-faint: var(--faint);
+  --color-line: var(--line);
+  --color-accent: var(--accent);
+  --color-brand-btn: var(--brand-btn);
+  --color-guide-btn: var(--guide-btn);
+  --color-guide-btn-fg: var(--guide-btn-fg);
+  --color-link: var(--link);
+
+  --color-ok: var(--ok);     --color-ok-bg: var(--ok-bg);     --color-ok-line: var(--ok-line);
+  --color-bad: var(--bad);   --color-bad-bg: var(--bad-bg);   --color-bad-line: var(--bad-line);
+  --color-warn: var(--warn); --color-warn-bg: var(--warn-bg); --color-warn-line: var(--warn-line);
+  --color-info: var(--info); --color-info-bg: var(--info-bg); --color-info-line: var(--info-line);
+  --color-idle: var(--idle); --color-idle-bg: var(--idle-bg); --color-idle-line: var(--idle-line);
+
+  --radius-card: 10px;
+
+  /* Type scale. The institutional reference sites run 16-18px body with 1.5-1.6
+     leading; the root below puts text-base at ~19px and text-sm at ~16.6px. The
+     line heights are opened past Tailwind's defaults because this interface is
+     dense with explanatory prose rather than short labels. */
+  --text-xs--line-height: 1.6;
+  --text-sm--line-height: 1.65;
+  --text-base--line-height: 1.7;
+  --text-lg--line-height: 1.55;
+
+  --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+}
+
+@layer base {
+  /* Larger overall: scales all rem-based type and spacing up ~18.75%. */
+  html {
+    font-size: 118.75%;
+  }
+  body {
+    background-color: var(--ground);
+    /* Fine diagonal grain, ~3% opacity. Texture without a visible pattern. */
+    background-image: repeating-linear-gradient(
+      45deg,
+      var(--grain) 0 1px,
+      transparent 1px 4px
+    );
+    color: var(--ink);
+    -webkit-font-smoothing: antialiased;
+  }
+  /* Consistent, on-brand keyboard focus everywhere. */
+  :focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+  h1, h2, h3 {
+    letter-spacing: -0.015em;
+    line-height: 1.2;
+  }
+
+  /* Form controls: use themed tokens so text/background contrast holds in both
+     light and dark (fields previously fell back to default colors). */
+  input:not([type='checkbox']):not([type='radio']),
+  select,
+  textarea {
+    background-color: var(--surface);
+    color: var(--ink);
+    border-color: var(--line);
+  }
+  ::placeholder {
+    color: var(--faint);
+    opacity: 1;
+  }
+  option {
+    background-color: var(--surface);
+    color: var(--ink);
+  }
+  input {
+    accent-color: var(--accent); /* checkboxes/radios in Carnegie Red */
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   The printed collection guide. A document, not the page: serif body sized in
+   points, numbered sections, tables and rules in place of cards and colour
+   fills. Styled here rather than with utilities because utilities are tuned for
+   a screen (rem sizing, coloured panels, borders on everything) and fighting
+   them element by element would cost more than writing the ~90 lines below.
+   Greyscale-safe throughout: nothing depends on a fill reproducing.
+   --------------------------------------------------------------------------- */
+.guide-print {
+  font-family: Georgia, "Iowan Old Style", "Palatino Linotype", "Times New Roman", serif;
+  font-size: 10.5pt;
+  line-height: 1.5;
+  color: #000;
+}
+.guide-print h1 { font-size: 21pt; line-height: 1.15; margin: 0; letter-spacing: -0.01em; }
+.guide-print h2 { font-size: 13pt; margin: 0 0 0.4em; }
+.guide-print h3 { font-size: 11pt; margin: 1.1em 0 0.3em; }
+.guide-print p { margin: 0 0 0.6em; max-width: 34em; }
+
+.guide-print .gp-eyebrow {
+  font-family: var(--font-sans);
+  font-size: 8pt; text-transform: uppercase; letter-spacing: 0.11em;
+  margin: 0 0 0.5em;
+}
+.guide-print .gp-masthead { border-bottom: 2pt solid #000; padding-bottom: 0.7em; margin-bottom: 1.2em; }
+.guide-print .gp-standfirst { font-size: 11pt; font-style: italic; margin: 0.5em 0 0.9em; }
+
+/* Metadata as a run-in list: compact, and readable if the page is found alone. */
+.guide-print .gp-meta { display: grid; grid-template-columns: 1fr 1fr; gap: 0.15em 1.5em; margin: 0; font-family: var(--font-sans); font-size: 8.5pt; }
+.guide-print .gp-meta div { display: flex; gap: 0.5em; }
+.guide-print .gp-meta dt { font-weight: 600; }
+.guide-print .gp-meta dt::after { content: ":"; }
+.guide-print .gp-meta dd { margin: 0; }
+
+.guide-print .gp-contents { margin-bottom: 1.6em; }
+.guide-print .gp-contents h2 { font-size: 9pt; font-family: var(--font-sans); text-transform: uppercase; letter-spacing: 0.09em; }
+.guide-print .gp-contents ol { margin: 0; padding-left: 1.4em; font-size: 10pt; }
+
+.guide-print .gp-section { margin-bottom: 1.6em; }
+.guide-print .gp-section > h2 { border-bottom: 0.5pt solid #000; padding-bottom: 0.2em; }
+.guide-print .gp-break { break-before: page; }
+
+.guide-print .gp-table { width: 100%; border-collapse: collapse; margin: 0.6em 0 1em; font-size: 9pt; }
+.guide-print .gp-table th, .guide-print .gp-table td { text-align: left; vertical-align: top; padding: 0.35em 0.6em 0.35em 0; border-bottom: 0.5pt solid #999; }
+.guide-print .gp-table thead th { border-bottom: 1pt solid #000; font-family: var(--font-sans); font-size: 8pt; text-transform: uppercase; letter-spacing: 0.06em; }
+.guide-print .gp-table tbody th { font-weight: 700; padding-right: 1em; }
+
+.guide-print .gp-example { break-inside: avoid; margin: 0.8em 0; }
+.guide-print .gp-example pre {
+  font-family: var(--font-mono); font-size: 8.5pt; line-height: 1.4;
+  white-space: pre-wrap; margin: 0.3em 0; padding: 0.5em 0.7em;
+  border-left: 2pt solid #000; background: #f4f4f4;
+}
+.guide-print .gp-standards span, .guide-print .gp-defs dt { font-weight: 700; }
+.guide-print .gp-standards { font-size: 9.5pt; }
+
+.guide-print .gp-callout { break-inside: avoid; border: 0.5pt solid #000; padding: 0.7em 0.9em; margin: 1em 0; }
+.guide-print .gp-callout h3 { margin-top: 0; }
+
+.guide-print .gp-defs { margin: 0.6em 0; }
+.guide-print .gp-defs div { break-inside: avoid; margin-bottom: 0.55em; }
+.guide-print .gp-defs dt { font-size: 10pt; }
+.guide-print .gp-defs dd { margin: 0.1em 0 0; font-size: 9.5pt; max-width: 34em; }
+.guide-print .gp-defs-tight dd { font-size: 9pt; }
+
+/* Ruled blanks to write on. */
+.guide-print .gp-fill { list-style: none; margin: 0.6em 0; padding: 0; }
+.guide-print .gp-fill li { border-bottom: 0.5pt solid #000; padding: 0.85em 0 0.15em; font-size: 9pt; }
+
+.guide-print .gp-group { break-inside: auto; margin-top: 1.1em; }
+.guide-print .gp-checklist { list-style: none; margin: 0.4em 0 0; padding: 0; }
+.guide-print .gp-checklist li { display: flex; gap: 0.6em; break-inside: avoid; padding: 0.35em 0; border-bottom: 0.25pt solid #ccc; }
+.guide-print .gp-box { flex: none; width: 9pt; height: 9pt; margin-top: 2pt; border: 0.75pt solid #000; }
+.guide-print .gp-box-done { background: #000; }
+.guide-print .gp-item { margin: 0; font-size: 10pt; }
+.guide-print .gp-detail { margin: 0.1em 0 0; font-size: 8.5pt; max-width: 36em; }
+.guide-print .gp-italic { font-style: italic; }
+.guide-print .gp-tag { font-family: var(--font-sans); font-size: 7.5pt; border: 0.5pt solid #000; padding: 0 0.3em; }
+.guide-print .gp-note { font-family: var(--font-sans); font-size: 8pt; color: #444; }
+.guide-print .gp-defs dt .gp-note { margin-left: 0.6em; font-weight: 400; }
+
+.guide-print .gp-sources { font-size: 9pt; padding-left: 1.3em; margin: 0.5em 0; }
+.guide-print .gp-sources li { break-inside: avoid; margin-bottom: 0.35em; max-width: 36em; }
+.guide-print .gp-doi { font-family: var(--font-mono); font-size: 8pt; word-break: break-all; }
+
+.guide-print .gp-colophon { border-top: 0.5pt solid #000; margin-top: 1.6em; padding-top: 0.6em; font-size: 8.5pt; }
+.guide-print .gp-colophon p { margin: 0 0 0.2em; max-width: none; }
+
+/* ---------------------------------------------------------------------------
+   Print. The collection guide is the one artifact meant to leave the screen on
+   paper, so printing shows the document and nothing around it. Site chrome and
+   controls opt out with the `print:hidden` utility at their call sites; these
+   rules cover what a utility class cannot reach: page margins, keeping blocks
+   off page boundaries, and forcing collapsed disclosures open.
+   --------------------------------------------------------------------------- */
+@media print {
+  @page {
+    margin: 18mm;
+  }
+
+  html,
+  body {
+    background: #fff;
+    background-image: none;
+    color: #000;
+  }
+
+  /* A disclosure printed closed is a hole in the document. */
+  details > *,
+  details[open] > * {
+    display: revert !important;
+  }
+
+  /* Long documents break across pages; individual records should not. */
+  .break-inside-avoid {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  /* Links are unusable on paper unless the target is written out. Restricted to
+     the guide so printed criterion text is not littered with internal routes. */
+  article a[href^='http']::after {
+    content: ' (' attr(href) ')';
+    font-size: 0.85em;
+    word-break: break-all;
+  }
+}

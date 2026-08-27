@@ -1,0 +1,251 @@
+// Datasheet generator: consumes an assessment record and emits Markdown.
+//
+// Sections are ordered one-per-dimension (Characterization -> Provenance ->
+// Pre-model Explainability -> FAIRness -> Computability -> Sustainability ->
+// Ethics) rather than by Gebru's headings, which avoids the "one criterion maps
+// to several datasheet sections" duplication problem. Pure function — no React,
+// no DOM — so it is unit-testable and reused by the export flow.
+
+import {
+  getPathway,
+  criteriaForDimension,
+  pathwayVerdict,
+  templateForRecord,
+  requiredCriteria,
+  isCriterionSatisfied,
+  dimensionProfile,
+} from '../lib/pathway.js';
+import { validationResults } from '../lib/validation.js';
+import { isLocked, isUpcoming } from '../lib/stages.js';
+import { citeThisWorkShort } from '../lib/thisWork.js';
+import guidance from '../schema/guidance.json';
+
+const SECTION_ORDER = [
+  'Characterization',
+  'Provenance',
+  'Pre-model Explainability',
+  'FAIRness',
+  'Computability',
+  'Sustainability',
+  'Ethics',
+];
+
+// A few criteria answer a question a datasheet reader looks for under a heading of
+// its own rather than under a dimension. Gebru's template has a Maintenance group,
+// and versioning, long-term access, and the update/deprecation/erratum plan belong
+// together there even though the matrix files them under FAIRness and
+// Sustainability. A criterion declaring `datasheet_section` is rendered in that
+// section and omitted from its dimension, so it still appears exactly once — the
+// one-criterion-one-place rule this generator is built on. Assessment pages are
+// unaffected: the field is read here only.
+const THEMED_SECTIONS = ['Maintenance'];
+
+const THEMED_LEAD = {
+  Maintenance:
+    'How this release is kept: versioning, long-term access, and what happens after publication.',
+};
+
+// How a reader should take each answer. The datasheet is read by someone deciding
+// whether to trust the dataset, and "a validator confirmed this" and "the depositor
+// says so" are not the same claim — which is the distinction the framework rests on
+// and the one a plain list of answers erases. `results` supplies the verdict for
+// automated criteria, so an unmet check is disclosed rather than implied by silence.
+// The reader-facing name for each mode, used both in the per-answer tag and in the
+// preamble that defines it, so the tag a reader meets is the term the preamble
+// explains.
+const BASIS_LABEL = {
+  automated: 'validator-checked',
+  attested: 'attested',
+  manual: 'human judgement',
+};
+
+const basisOf = (criterion, answer, results, satisfied) => {
+  // Declared non-applicability is its own basis. A reader needs to tell "no human
+  // subjects, so no consent to record" from "consent recorded".
+  if (answer?.not_applicable === true) return 'not applicable to this dataset';
+  // An unmet criterion has no basis: nothing was validated, declared, or judged.
+  // Printing the mode here would assert a judgement nobody made.
+  if (!satisfied) {
+    return criterion.verification === 'automated' ? 'validator check not passing' : 'not yet recorded';
+  }
+  if (criterion.verification === 'attested') {
+    const note = String(answer?.notes ?? '').trim();
+    return note ? `attested; evidence: ${note}` : 'attested, no evidence linked';
+  }
+  return BASIS_LABEL[criterion.verification] ?? criterion.verification;
+};
+
+const formatValue = (criterion, answer) => {
+  if (criterion.evidence_type === 'boolean') {
+    if (answer?.value === true) return 'Yes';
+    if (answer?.value === false) return 'No';
+    return '_not provided_';
+  }
+  const v = answer?.value;
+  if (v === null || v === undefined || String(v).trim() === '') return '_not provided_';
+  return String(v).trim();
+};
+
+export function generateDatasheet(record, opts = {}) {
+  const { pathway, sub_domain: subDomain, answers = {} } = record;
+  const now = opts.now ?? new Date().toISOString();
+  const meta = getPathway(pathway);
+  const results = opts.results ?? validationResults(record);
+  const verdict = pathwayVerdict(pathway, answers, subDomain, results, record.stage);
+  const isHealth = templateForRecord(record) === 'healthsheet';
+
+  const lines = [];
+  lines.push(isHealth ? '# Dataset healthsheet' : '# Dataset datasheet');
+  lines.push('');
+  lines.push(
+    `- **Assessment pathway:** ${pathway} — ${meta?.name ?? '?'} (${meta?.level ?? '?'})`,
+  );
+  if (subDomain) lines.push(`- **Sub-domain:** ${subDomain}`);
+  lines.push(`- **Generated:** ${now}`);
+  lines.push(
+    `- **Verdict:** ${
+      verdict.met ? `meets Pathway ${pathway}` : `does not yet meet Pathway ${pathway}`
+    } (${verdict.satisfiedCount}/${verdict.requiredCount} required criteria satisfied)`,
+  );
+  lines.push('');
+  if (isHealth) {
+    lines.push(
+      '> **Healthsheet** (Rostamzadeh et al. 2022) — a health-specific transparency artifact. The Ethics section below carries the sub-domain-specific evidence.',
+    );
+    lines.push('');
+  }
+  lines.push('> Generated by the AI-Readiness Assessment proof-of-concept tool.');
+  lines.push(`> Implements the framework of ${citeThisWorkShort()}`);
+  lines.push('');
+  lines.push('## How to read this datasheet');
+  lines.push('');
+  lines.push(
+    'Each answer below is followed by the basis on which it is given. The three bases are the verification modes of the framework:',
+  );
+  lines.push('');
+  for (const m of guidance.verification_modes.modes) {
+    const tag = BASIS_LABEL[m.id];
+    const named = tag === m.label ? `**${tag}**` : `**${tag}** (${m.label})`;
+    lines.push(`- ${named} — ${m.definition}`);
+  }
+  lines.push(
+    '- **not applicable to this dataset** — the criterion does not apply here, and that is recorded as the answer.',
+  );
+  lines.push(
+    '- **not yet recorded** — the criterion is unmet: nothing has been validated, declared, or judged for it.',
+  );
+  lines.push('');
+  lines.push(`_${guidance.verification_modes.note}_`);
+  lines.push('');
+
+  const criterionLine = (c) => {
+    const answer = answers[c.id];
+    const note = String(answer?.notes ?? '').trim();
+    const satisfied = isCriterionSatisfied(c, answer, results);
+    // "not provided — not applicable" reads as a gap with an excuse. Where the criterion
+    // does not apply there is nothing to provide, and the basis carries the meaning.
+    const shown = answer?.not_applicable === true ? '_n/a_' : formatValue(c, answer);
+    let line = `- **${c.label}:** ${shown}`;
+    line += ` — _${basisOf(c, answer, results, satisfied)}_`;
+    // For an attested criterion the note *is* the evidence and already appears in
+    // the basis; for the other two it is a separate remark.
+    if (note && c.verification !== 'attested') line += ` _(note: ${note})_`;
+    return line;
+  };
+
+  // Readiness is a per-dimension property, and the tier verdict in the header answers a
+  // narrower question: whether every dimension cleared the target. A deposit can be L3 on
+  // four dimensions and L1 on two, which is the case the framework exists to describe and
+  // a single verdict cannot. A reader wants this before the answers, not after them.
+  const profile = dimensionProfile(pathway, answers, subDomain, results, record.stage);
+  const CELL_MARK = {
+    met: 'met',
+    'not-applicable': 'n/a',
+    unmet: 'unmet',
+    upcoming: 'not due',
+    'not-required': '—',
+  };
+  lines.push('## Readiness profile');
+  lines.push('');
+  lines.push(
+    'The level each dimension reaches, capped by what this pathway assessed. A dash means the level was not asked about at this tier.',
+  );
+  lines.push('');
+  lines.push('| Dimension | Reaches | L1 | L2 | L3 | Not applicable |');
+  lines.push('|---|---|---|---|---|---|');
+  for (const d of profile) {
+    const cells = ['L1', 'L2', 'L3'].map((l) => CELL_MARK[d.levels[l]] ?? d.levels[l]);
+    const na = d.notApplicableCount > 0 ? `${d.notApplicableCount} of ${d.criteriaCount}` : '—';
+    lines.push(`| ${d.dimension} | ${d.attained ?? '—'} | ${cells.join(' | ')} | ${na} |`);
+  }
+  lines.push('');
+
+  for (const dimension of SECTION_ORDER) {
+    const criteria = criteriaForDimension(dimension, pathway, subDomain).filter(
+      (c) => !c.datasheet_section,
+    );
+    if (criteria.length === 0) continue;
+    lines.push(`## ${dimension}`);
+    lines.push('');
+    for (const c of criteria) lines.push(criterionLine(c));
+    lines.push('');
+  }
+
+  // Themed sections, after the dimensions: the criteria pulled out above.
+  const required = requiredCriteria(pathway, subDomain);
+  for (const section of THEMED_SECTIONS) {
+    const criteria = required.filter((c) => c.datasheet_section === section);
+    if (criteria.length === 0) continue;
+    lines.push(`## ${section}`);
+    lines.push('');
+    if (THEMED_LEAD[section]) {
+      lines.push(`_${THEMED_LEAD[section]}_`);
+      lines.push('');
+    }
+    for (const c of criteria) lines.push(criterionLine(c));
+    lines.push('');
+  }
+
+  // A reviewer arrives with Gebru's seven groups in mind and finds seven dimensions.
+  // The crosswalk says where each group is answered, rather than reordering the document
+  // and printing criteria that answer two groups twice.
+  const crosswalk = guidance.datasheet_crosswalk;
+  if (crosswalk?.groups?.length) {
+    lines.push('## Where each datasheet question is answered');
+    lines.push('');
+    lines.push(crosswalk.lead);
+    lines.push('');
+    for (const g of crosswalk.groups) {
+      lines.push(`- **${g.group}** — _${g.question}_ → ${g.sections.join(', ')}`);
+    }
+    lines.push('');
+  }
+
+  // Known limitations: required criteria that are locked at this lifecycle stage
+  // and unmet — past decisions to disclose rather than gaps to fix.
+  const lockedUnmet = requiredCriteria(pathway, subDomain).filter(
+    (c) => isLocked(c, record.stage) && !isCriterionSatisfied(c, answers[c.id], results),
+  );
+  if (lockedUnmet.length) {
+    lines.push('## Known limitations (immutable at this lifecycle stage)');
+    lines.push('');
+    for (const c of lockedUnmet) {
+      lines.push(`- **${c.label}** — not met; reflects a past ${c.lifecycle_stage} decision that cannot be changed now.`);
+    }
+    lines.push('');
+  }
+
+  // Upcoming: required criteria not yet due at this lifecycle stage (Plan) — a
+  // roadmap to complete at release, not current gaps.
+  const upcoming = requiredCriteria(pathway, subDomain).filter((c) => isUpcoming(c, record.stage));
+  if (upcoming.length) {
+    lines.push('## Planned for a later stage');
+    lines.push('');
+    for (const c of upcoming) {
+      lines.push(`- **${c.label}** — not due yet at this stage; complete at release.`);
+    }
+    lines.push('');
+  }
+
+  return lines.join('\n');
+}
