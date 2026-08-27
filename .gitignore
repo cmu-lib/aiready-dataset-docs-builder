@@ -1,0 +1,13 @@
+MIGRATION.md
+docs/
+2026_RDM_MS.pdf
+design/
+app_progress.md
+app_design.md
+node_modules
+dist
+.DS_Store
+*.local
+.vite
+coverage
+Paper/
