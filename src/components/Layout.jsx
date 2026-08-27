@@ -90,6 +90,14 @@ export default function Layout() {
               alt="Carnegie Mellon University Libraries"
               imgClass="h-20"
             />
+            <button
+              type="button"
+              onClick={toggle}
+              className="rounded-none border border-line px-3 py-1.5 text-xs text-ink hover:border-muted"
+              aria-label={`Switch to ${effective === 'dark' ? 'light' : 'dark'} theme`}
+            >
+              {effective === 'dark' ? '☀ Light' : '☾ Dark'}
+            </button>
             {/* TEMPORARY (testing phase): a second, more visible feedback entry
                 point. Remove this block when testing ends — the footer link
                 stays as the permanent one. */}
@@ -101,14 +109,6 @@ export default function Layout() {
             >
               Share feedback →
             </a>
-            <button
-              type="button"
-              onClick={toggle}
-              className="rounded-none border border-line px-3 py-1.5 text-xs text-ink hover:border-muted"
-              aria-label={`Switch to ${effective === 'dark' ? 'light' : 'dark'} theme`}
-            >
-              {effective === 'dark' ? '☀ Light' : '☾ Dark'}
-            </button>
           </div>
         </div>
 
