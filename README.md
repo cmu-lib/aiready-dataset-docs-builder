@@ -315,7 +315,7 @@ Issues and pull requests are welcome. For substantive changes to the assessment 
 
 ## AI Disclosure Statement
 
-This project was built using GitHub Co-pilot as autocomplete, Claude Code (Opus 4.8 in manual mode) for most of the webpage architecture, backend and documentation, and the chatbot version of Claude Opus 4.8 for the visual design. Everything generated with LLMs was planned prior execution and revised after generation, sometimes with iterated prompts, most of the content was edited before publishig. Not a single LLM-generated content was produced by using _zero-shot_ techniques or with Agents (automatic delegation). The authors of this project are thankful to Open Science and all the contributors of Open Source that made the training data for Large Language Models possible. 
+This project was built using GitHub Co-pilot as autocomplete, Claude Code (Opus 4.8 in manual mode) for most of the webpage architecture, backend and documentation, and the chatbot version of Claude Opus 4.8 for the visual design. Everything generated with LLMs was planned prior to execution and revised after generation, sometimes with iterated prompts, most of the content was edited before publishing. Not a single LLM-generated content was produced by using _zero-shot_ techniques or with Agents (automatic delegation). The authors of this project are thankful to Open Science and all the contributors of Open Source that made the training data for Large Language Models possible. 
 
 ## Contact
 

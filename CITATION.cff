@@ -1,0 +1,60 @@
+# This CITATION.cff file provides machine-readable citation metadata.
+# GitHub renders it as the "Cite this repository" button; Zenodo reads it
+# when minting the DOI. Spec: https://citation-file-format.github.io/
+#
+# TODO before v1.0 / in a later version:
+#   - add co-authors to `authors` when known (concept DOI stays stable)
+#   - fill `doi:` under preferred-citation once the paper has one
+#   - set `date-released:` to the actual release date and `version:` to the tag
+
+cff-version: 1.2.0
+message: "If you use this software, please cite it using the metadata from this file."
+title: "AI-Readiness Assessment and Documentation Builder"
+abstract: >-
+  A browser-based, proof-of-concept tool that helps researchers assess whether
+  their datasets are ready for publication, community sharing, or model training,
+  and generates documentation artifacts — datasheets, healthsheets, Croissant
+  JSON-LD descriptors, and PROV-O provenance records. It implements the tiered
+  assessment framework of González-Espinoza et al. (2026), combining the
+  Bridge2AI pre-model dimensions, Data Readiness Levels, and FAIR maturity
+  indicators.
+type: software
+authors:
+  # Co-authors can be added in a later version; the Zenodo concept DOI is stable
+  # across versions, so updating this list does not break existing citations.
+  - family-names: "González-Espinoza"
+    given-names: "Alfredo"
+    orcid: "https://orcid.org/0000-0003-2361-1827"
+    affiliation: "Carnegie Mellon University Libraries"
+version: "0.1.0"
+date-released: "2026-08-28"
+license: MIT
+repository-code: "https://github.com/cmu-lib/aiready-dataset-docs-builder"
+url: "https://cmu-lib.github.io/aiready-dataset-docs-builder/"
+keywords:
+  - "AI readiness"
+  - "research data management"
+  - "machine learning"
+  - "FAIR data"
+  - "data documentation"
+  - "datasheets for datasets"
+  - "Croissant"
+  - "PROV-O"
+  - "data readiness levels"
+  - "Bridge2AI"
+# The forthcoming framework paper. Cite this when using the assessment model
+# itself (the seven dimensions, the L1/L2/L3 levels, or the audience pathways).
+preferred-citation:
+  type: article
+  title: >-
+    A data-centric framework for assessing and documenting research data
+    for machine learning reuse
+  authors:
+    - family-names: "González-Espinoza"
+      given-names: "Alfredo"
+      orcid: "https://orcid.org/0000-0003-2361-1827"
+      affiliation: "Carnegie Mellon University Libraries"
+    - name: "et al."
+  year: 2026
+  status: in-preparation
+  notes: "Forthcoming. DOI to be added once available."

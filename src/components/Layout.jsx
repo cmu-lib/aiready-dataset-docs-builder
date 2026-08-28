@@ -105,7 +105,7 @@ export default function Layout() {
               href="https://forms.gle/wSQoMUJxUMqZGoon6"
               target="_blank"
               rel="noopener noreferrer"
-              className="-mr-2 inline-flex items-center gap-1 rounded-none bg-accent px-3 py-1.5 text-xs font-semibold text-white hover:opacity-90"
+              className="-mr-2 ml-6 inline-flex items-center gap-1 rounded-none bg-accent px-3 py-1.5 text-xs font-semibold text-white hover:opacity-90"
             >
               Share feedback →
             </a>
@@ -159,7 +159,17 @@ export default function Layout() {
             <p>
               Proof-of-concept prototype (v0.1.0, pre-release) for the AI-readiness framework — a
               work in progress, not a finished release. Runs entirely in your browser. Nothing is
-              uploaded.
+              uploaded. Built with Claude Code Opus 4.8, based on the framework of
+              González-Espinoza et al. (2026).{' '}
+              <a
+                href="https://github.com/cmu-lib/aiready-dataset-docs-builder#ai-disclosure-statement"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-link underline"
+              >
+                See full disclaimer
+              </a>
+              .
             </p>
             <p className="mt-1">
               <Link to="/examples" className="text-link underline">Examples</Link>
