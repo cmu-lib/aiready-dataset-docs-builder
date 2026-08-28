@@ -60,7 +60,7 @@
     {
       "id": "clinical",
       "name": "Clinical / health data",
-      "description": "Healthsheet template; surfaces IRB protocol ID, HIPAA de-identification method, and DUA reference.",
+      "description": "Healthsheet template. Surfaces IRB protocol ID, HIPAA de-identification method, and DUA reference.",
       "deposition_targets_vocabulary": "repositories_l3_bridge2ai",
       "deposition_targets_filter": ["CHoRUS", "PhysioNet"],
       "template": "healthsheet",
@@ -75,9 +75,9 @@
           "verification": "attested",
           "required_in_pathways": ["C"],
           "references": ["Rostamzadeh2022", "Clark2026"],
-          "collection_hint": "Copy the protocol number off the approval letter when it arrives; it is rarely findable later without the letter.",
+          "collection_hint": "Copy the protocol number off the approval letter when it arrives. It is rarely findable later without the letter.",
           "remediation": "The number assigned by your institution's IRB. Required so reviewers can verify the approval if needed.",
-          "verification_hint": "You declare the number; the evidence is the approval letter it appears on. A reviewer verifies it against the issuing IRB."
+          "verification_hint": "You declare the number. The evidence is the approval letter it appears on. A reviewer verifies it against the issuing IRB."
         },
         {
           "id": "ethics.l2.clinical.hipaa_method",
@@ -91,8 +91,8 @@
           "required_in_pathways": ["B", "C"],
           "references": ["Rostamzadeh2022", "Clark2026"],
           "collection_hint": "Record which method was applied, and by whom, at the time de-identification is performed.",
-          "remediation": "HIPAA recognises two methods. State which one applies; for Expert Determination, name the expert and the report date.",
-          "verification_hint": "You declare the method; the evidence is the Safe Harbor checklist or the expert's determination report, with the date it was signed."
+          "remediation": "HIPAA recognises two methods. State which one applies. For Expert Determination, name the expert and the report date.",
+          "verification_hint": "You declare the method. The evidence is the Safe Harbor checklist or the expert's determination report, with the date it was signed."
         },
         {
           "id": "ethics.l3.clinical.dua_template",
@@ -159,7 +159,7 @@
           "references": ["Clark2026"],
           "collection_hint": "Note the assessment method and the threshold at the time you run it.",
           "remediation": "Genomic data carries non-trivial re-identification risk even after standard de-identification. Document the method and threshold used.",
-          "verification_hint": "You declare this; the evidence is the assessment — the method used, the threshold applied, and the residual risk it reported."
+          "verification_hint": "You declare this. The evidence is the assessment — the method used, the threshold applied, and the residual risk it reported."
         }
       ]
     },
@@ -182,7 +182,7 @@
           "required_in_pathways": ["A", "B", "C"],
           "references": ["Clark2026"],
           "collection_hint": "Record what speakers agreed to, including whether voice cloning and biometric use are covered or explicitly excluded.",
-          "remediation": "Voice data implicates re-identification and impersonation risks; consent must explicitly cover or exclude voice cloning and biometric uses.",
+          "remediation": "Voice data implicates re-identification and impersonation risks. Consent must explicitly cover or exclude voice cloning and biometric uses.",
           "verification_hint": "The governance officer confirms what speakers agreed to, including whether voice cloning and biometric use are covered or explicitly excluded."
         },
         {
@@ -195,9 +195,9 @@
           "verification": "attested",
           "required_in_pathways": ["C"],
           "references": ["Clark2026", "KidwaiKhan2024"],
-          "collection_hint": "Capture speaker demographics as structured fields during enrolment; a retrospective audit is only as good as what was recorded at the time.",
+          "collection_hint": "Capture speaker demographics as structured fields during enrolment. A retrospective audit is only as good as what was recorded at the time.",
           "remediation": "Counts and proportions across age, sex, race/ethnicity, and primary language.",
-          "verification_hint": "You declare this; the evidence is the audit output: counts and proportions across age, sex, race or ethnicity, and primary language.",
+          "verification_hint": "You declare this. The evidence is the audit output: counts and proportions across age, sex, race or ethnicity, and primary language.",
           "validators": ["aequitas", "fairlearn"]
         },
         {
@@ -249,7 +249,7 @@
           "required_in_pathways": ["C"],
           "references": ["Clark2026"],
           "collection_hint": "Note which access tier the data will sit in and the policy URL that defines it.",
-          "remediation": "Institutional Dataverse and ICPSR both publish tiered-access policies; link to the one that applies.",
+          "remediation": "Institutional Dataverse and ICPSR both publish tiered-access policies. Link to the one that applies.",
           "verification_hint": "The tool checks the URL's syntax only. That the policy it points at is the current one is yours to confirm."
         }
       ]
@@ -279,8 +279,8 @@
           "required_in_pathways": ["C"],
           "references": ["Ghiringhelli2023", "Wilkinson2016"],
           "collection_hint": "Decide the target repository early. NOMAD, Materials Cloud, OQMD, and ICSD each have submission requirements that are easier to meet before the runs than after.",
-          "remediation": "Domain repository first, generalist fallback second. NOMAD and the Materials Cloud Archive mint DOIs and index the metadata so the record stays machine-queryable; OQMD and ICSD are structure databases with their own submission and licensing routes. Zenodo, Figshare, and Dryad remain valid when no domain repository accepts the record type. Record which one, and the DOI it minted.",
-          "verification_hint": "You declare this; the evidence is the DOI the repository minted when it accepted the deposit."
+          "remediation": "Domain repository first, generalist fallback second. NOMAD and the Materials Cloud Archive mint DOIs and index the metadata so the record stays machine-queryable. OQMD and ICSD are structure databases with their own submission and licensing routes. Zenodo, Figshare, and Dryad remain valid when no domain repository accepts the record type. Record which one, and the DOI it minted.",
+          "verification_hint": "You declare this. The evidence is the DOI the repository minted when it accepted the deposit."
         },
         {
           "id": "fairness.l3.materials.encoding_standard",
@@ -295,7 +295,7 @@
           "references": ["Hall1991", "Ghiringhelli2023"],
           "collection_hint": "Export in the disciplinary format at the moment of measurement or calculation — CIF for structures, NeXus for beamline data. Converting later cannot add what the original never carried.",
           "remediation": "Crystal structures go in CIF (IUCr): `_chemical_formula_sum`, `_cell_length_a`, `_space_group_H-M`, and an `_atom_site` loop with fractional coordinates. Neutron, X-ray, and muon experiment data go in NeXus, which is HDF5 underneath and so stays loadable in a standard environment. Molecules and reactions can use CML. Name the standard and its version — a bare CSV of peak positions is L1 evidence, not L3.",
-          "verification_hint": "You declare the standard; the evidence is the file validating against it. checkCIF checks a CIF, cnxvalidate checks a NeXus file against its application definition.",
+          "verification_hint": "You declare the standard. The evidence is the file validating against it. checkCIF checks a CIF, cnxvalidate checks a NeXus file against its application definition.",
           "validators": ["checkcif", "nexus-validate"]
         },
         {
@@ -311,7 +311,7 @@
           "references": ["EMMC2021", "Andersen2021", "Ghiringhelli2023"],
           "collection_hint": "For every field name your code or instrument emits, note the concept it denotes. `E_tot`, `etotal`, and `energy` are the same quantity only because someone said so.",
           "remediation": "One quantity carries many names: VASP writes `E_tot`, Quantum ESPRESSO writes `etotal`, an XRD ELN writes `energy`. Map each field to one shared concept so the record is queryable across codes — EMMO for materials concepts, NOMAD Metainfo for a repository-native schema, OPTIMADE when the data is served from a queryable endpoint. Record the vocabulary and, where one exists, the concept IRI per field.",
-          "verification_hint": "You declare this; the evidence is the mapping — each field name to its concept IRI — or a queryable endpoint that validates against the OPTIMADE specification.",
+          "verification_hint": "You declare this. The evidence is the mapping — each field name to its concept IRI — or a queryable endpoint that validates against the OPTIMADE specification.",
           "validators": ["optimade-validator"]
         },
         {
@@ -326,8 +326,8 @@
           "required_in_pathways": ["C"],
           "references": ["Huber2020", "Pizzi2016", "OCarragain2019"],
           "collection_hint": "Run through an engine that writes the graph as it goes. If you find yourself taking notes about what the machine just did, the record is already incomplete.",
-          "remediation": "At high throughput — order 10,000 processes an hour — nobody is taking notes, and reconstructing the graph after the fact is intractable. Name what recorded inputs, steps, and outputs as the run proceeded (AiiDA, FireWorks/atomate, signac, Nextflow with nf-prov, CWLProv; an ELN/LIMS entry for bench work) and export its graph alongside the data. A Workflow-Run RO-Crate is a packaged form of that export; the PROV-O record this tool builds is the interchange form.",
-          "verification_hint": "You declare this; the evidence is the engine's own export — an AiiDA graph, an nf-prov record, a Workflow-Run RO-Crate — which shows the graph was written as the run proceeded."
+          "remediation": "At high throughput — order 10,000 processes an hour — nobody is taking notes, and reconstructing the graph after the fact is intractable. Name what recorded inputs, steps, and outputs as the run proceeded (AiiDA, FireWorks/atomate, signac, Nextflow with nf-prov, CWLProv; an ELN/LIMS entry for bench work) and export its graph alongside the data. A Workflow-Run RO-Crate is a packaged form of that export. The PROV-O record this tool builds is the interchange form.",
+          "verification_hint": "You declare this. The evidence is the engine's own export — an AiiDA graph, an nf-prov record, a Workflow-Run RO-Crate — which shows the graph was written as the run proceeded."
         },
         {
           "id": "characterization.l3.materials.acquisition_parameters",

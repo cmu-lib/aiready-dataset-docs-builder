@@ -23,7 +23,7 @@
       "validator_name": "Frictionless",
       "validator_url": "https://framework.frictionlessdata.io/",
       "execution": "cli",
-      "note": "Run frictionless validate over the data package and record the report as attested evidence. General-purpose, so it applies across disciplines. A JavaScript port exists; this tool does not embed it."
+      "note": "Run frictionless validate over the data package and record the report as attested evidence. General-purpose, so it applies across disciplines. A JavaScript port exists. This tool does not embed it."
     },
     {
       "id": "shacl",
@@ -78,7 +78,7 @@
       "validator_name": "Aequitas",
       "validator_url": "https://github.com/dssg/aequitas",
       "execution": "cli",
-      "note": "Representation and parity metrics across protected attributes. Produces the report that is the evidence for the L3 bias-audit row; compare before and after curation, so introduced skew shows alongside released-state parity."
+      "note": "Representation and parity metrics across protected attributes. Produces the report that is the evidence for the L3 bias-audit row. Compare before and after curation, so introduced skew shows alongside released-state parity."
     },
     {
       "id": "fairlearn",
@@ -89,7 +89,7 @@
       "validator_name": "Fairlearn",
       "validator_url": "https://github.com/fairlearn/fairlearn",
       "execution": "cli",
-      "note": "Group-fairness metrics and a dashboard. Overlaps Aequitas; either satisfies the bias-audit evidence."
+      "note": "Group-fairness metrics and a dashboard. Overlaps Aequitas. Either satisfies the bias-audit evidence."
     },
     {
       "id": "cf-checker",
@@ -101,7 +101,7 @@
       "validator_url": "https://github.com/cedadev/cf-checker",
       "reference_doi": "10.5194/gmd-10-3947-2017",
       "execution": "cli",
-      "note": "Python CLI; run externally and record the report as attested evidence."
+      "note": "Python CLI. Run externally and record the report as attested evidence."
     },
     {
       "id": "ddi-validation",
@@ -112,7 +112,7 @@
       "validator_name": "Colectica / DDI validation tools",
       "validator_url": "https://www.colectica.com/",
       "execution": "cli",
-      "note": "Desktop/CLI tooling; run externally and record the outcome as attested evidence."
+      "note": "Desktop/CLI tooling. Run externally and record the outcome as attested evidence."
     },
     {
       "id": "gbif-validator",
@@ -124,7 +124,7 @@
       "validator_url": "https://www.gbif.org/tools/data-validator",
       "reference_doi": "10.1371/journal.pone.0029715",
       "execution": "web-service",
-      "note": "Hosted web service; submit externally and record the validation summary as attested evidence."
+      "note": "Hosted web service. Submit externally and record the validation summary as attested evidence."
     },
     {
       "id": "checkcif",
@@ -136,7 +136,7 @@
       "validator_url": "https://checkcif.iucr.org/",
       "reference_doi": "10.1107/S010876739101067X",
       "execution": "web-service",
-      "note": "IUCr hosted service; upload the CIF and record the report as attested evidence. Also runs as part of IUCr journal submission."
+      "note": "IUCr hosted service. Upload the CIF and record the report as attested evidence. Also runs as part of IUCr journal submission."
     },
     {
       "id": "optimade-validator",
@@ -148,7 +148,7 @@
       "validator_url": "https://github.com/Materials-Consortia/optimade-python-tools",
       "reference_doi": "10.1038/s41597-021-00974-z",
       "execution": "cli",
-      "note": "Python CLI; validates an OPTIMADE endpoint against the specification. Applies when the dataset is served from a queryable endpoint."
+      "note": "Python CLI. Validates an OPTIMADE endpoint against the specification. Applies when the dataset is served from a queryable endpoint."
     },
     {
       "id": "nexus-validate",

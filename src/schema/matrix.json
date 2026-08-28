@@ -94,7 +94,7 @@
       "references": ["Wilkinson2016", "Bahim2020"],
       "no_capture": "Emitted by the repository from what you deposit. Check it once the deposit exists.",
       "remediation": "Confirm the landing page emits DataCite metadata or schema.org/Dataset JSON-LD. Most generalist repositories do this by default.",
-      "verification_hint": "You declare this; the evidence is the landing page itself. View its source for DataCite or schema.org/Dataset JSON-LD, or run it through a structured-data testing tool."
+      "verification_hint": "You declare this. The evidence is the landing page itself. View its source for DataCite or schema.org/Dataset JSON-LD, or run it through a structured-data testing tool."
     },
     {
       "id": "fairness.l1.access_documented",
@@ -123,7 +123,7 @@
       "references": ["Wilkinson2016", "Bahim2020"],
       "beyond_cell": {
         "source": "Table 4 (tab:release-components), paper §2.6; Table 9 (tab:ethics-requirements)",
-        "note": "The cell names FAIR F+A indicators, and an explicit licence is R1.1. It is required at L1 because a release without one defaults to all-rights-reserved, which blocks the reuse every higher level assumes; the paper lists it as a release component and as an ethical condition of use."
+        "note": "The cell names FAIR F+A indicators, and an explicit licence is R1.1. It is required at L1 because a release without one defaults to all-rights-reserved, which blocks the reuse every higher level assumes. The paper lists it as a release component and as an ethical condition of use."
       },
       "collection_hint": "Choose the licence before collection where you can: what you may release is bounded by the terms of every input and by what participants agreed to.",
       "remediation": "Pick a Creative Commons or Open Data Commons license. 'No license' defaults to all-rights-reserved and blocks reuse.",
@@ -220,7 +220,7 @@
         "note": "The cell names the Croissant annotations, the identifier, and the versioned release. Repository choice appears in the paper as a release component, outside the matrix cells. It is required here because the target repository constrains formats, consent wording, and access tier."
       },
       "remediation": "The options are scoped to your pathway and, in Pathway C, to your sub-domain — a domain repository is preferred over a generalist one, and any target recommended for your sub-domain is listed first. Record the repository you will deposit in and the access tier it will carry (open, registered, restricted, controlled, or embargoed). If the right repository is not listed, use Custom.",
-      "verification_hint": "You declare this; the evidence is the repository's own submission policy, which states the access tiers it supports and the formats it accepts."
+      "verification_hint": "You declare this. The evidence is the repository's own submission policy, which states the access tiers it supports and the formats it accepts."
     },
     {
       "id": "provenance.l1.source_documented",
@@ -302,7 +302,7 @@
       "lifecycle_stage": "documentation",
       "required_in_pathways": ["C"],
       "references": ["W3CPROVO2013", "Clark2026"],
-      "collection_hint": "List every variable you will release; for derived ones, note which variables they were computed from.",
+      "collection_hint": "List every variable you will release. For derived ones, note which variables they were computed from.",
       "remediation": "Variable-level Entities enable feature-lineage queries downstream. The in-app generator emits one Entity per variable when the variable list is populated.",
       "verification_hint": "The tool counts Entities carrying kind: variable. It cannot know which variables you left out, so completeness is yours to confirm."
     },
@@ -345,7 +345,7 @@
       "lifecycle_stage": "documentation",
       "required_in_pathways": ["A", "B", "C"],
       "references": ["Clark2026", "Wilkinson2016"],
-      "collection_hint": "Fill in the type, the unit, and the allowed values as each column is defined. A value set retrofitted from the data recovers only what happened to appear in it; the permitted range has to be written down as you define the column.",
+      "collection_hint": "Fill in the type, the unit, and the allowed values as each column is defined. A value set retrofitted from the data recovers only what happened to appear in it. The permitted range has to be written down as you define the column.",
       "remediation": "Ship a data dictionary (CSV, Markdown, or DDI XML) listing every variable with its type, units, and value set.",
       "verification_hint": "The domain expert confirms every variable has a type, a unit where one applies, and a value set. Frictionless can check a declared table schema against the released data.",
       "validators": ["frictionless"]
@@ -378,7 +378,7 @@
       "lifecycle_stage": "documentation",
       "required_in_pathways": ["B", "C"],
       "references": ["Clark2026", "KidwaiKhan2024"],
-      "collection_hint": "The rates can be computed later; the reasons cannot. Note why values are missing as it happens — an instrument fault, a refusal, a question added mid-study.",
+      "collection_hint": "The rates can be computed later. The reasons cannot. Note why values are missing as it happens — an instrument fault, a refusal, a question added mid-study.",
       "remediation": "Report % missing per variable. Default missingness handling encodes fairness properties — disclose what was applied.",
       "verification_hint": "The data engineer confirms the rates were computed from the released files themselves. Great Expectations or Pandera produce them as a profiling report.",
       "validators": ["great-expectations", "pandera"]
@@ -408,7 +408,7 @@
       "lifecycle_stage": "documentation",
       "required_in_pathways": ["B", "C"],
       "references": ["Clark2026"],
-      "collection_hint": "Log each error as you find it and what you did about it: corrected, flagged, dropped, or left in. The decision is the part that disappears; the error usually leaves a trace.",
+      "collection_hint": "Log each error as you find it and what you did about it: corrected, flagged, dropped, or left in. The decision is the part that disappears. The error usually leaves a trace.",
       "remediation": "Explicit disclosure beats silent correction. List known issues even if you chose not to fix them.",
       "verification_hint": "The domain expert confirms the list reflects what is known, including issues nobody fixed. Only someone close to the data can say what is missing from it."
     },
@@ -440,7 +440,7 @@
       "references": ["Clark2026", "KidwaiKhan2024", "Aldoseri2023"],
       "collection_hint": "Record the attributes you will need to audit representation on — site, instrument, batch, demographic group — as structured columns in the data. You cannot audit what was never captured.",
       "remediation": "Use Aequitas, Fairlearn, or an equivalent tool. Compare distributions before and after curation, so introduced skew surfaces alongside released-state parity.",
-      "verification_hint": "You declare this; the evidence is the audit report itself. Aequitas or Fairlearn produce one — link it in the note field, and cover both the pre-curation and released distributions.",
+      "verification_hint": "You declare this. The evidence is the audit report itself. Aequitas or Fairlearn produce one — link it in the note field, and cover both the pre-curation and released distributions.",
       "validators": ["aequitas", "fairlearn"]
     },
     {
@@ -503,7 +503,7 @@
       "references": ["Clark2026", "Aldoseri2023"],
       "collection_hint": "File the consent form or the waiver alongside the data when collection is approved, and note which document establishes the basis. This is the row that most often cannot be repaired afterwards.",
       "remediation": "Document what consent covers — including 'not applicable' for non-human-subjects or already-public data.",
-      "verification_hint": "You declare this; the evidence is the consent form or the IRB waiver that establishes the basis. Nothing mechanical can confirm the basis covers the use you intend."
+      "verification_hint": "You declare this. The evidence is the consent form or the IRB waiver that establishes the basis. Nothing mechanical can confirm the basis covers the use you intend."
     },
     {
       "id": "ethics.l1.de_identification_applied",
@@ -518,7 +518,7 @@
       "references": ["Clark2026", "Aldoseri2023"],
       "collection_hint": "Record which fields were removed or transformed at the moment you do it, and keep the script. \"We de-identified it\" does not expand back into a list of fields.",
       "remediation": "Names, contact details, MRNs, exact addresses, exact dates of service. Indirect identifiers come at L2.",
-      "verification_hint": "You declare this; the evidence is the de-identification run — the script, the tool's report, or a reviewer's sign-off on the released files."
+      "verification_hint": "You declare this. The evidence is the de-identification run — the script, the tool's report, or a reviewer's sign-off on the released files."
     },
     {
       "id": "ethics.l2.de_identification_method",
@@ -534,7 +534,7 @@
       "references": ["Clark2026", "Rostamzadeh2022"],
       "collection_hint": "Note the method and its parameters as they are chosen — the k, the epsilon, the Safe Harbor checklist — together with who decided.",
       "remediation": "Record the method and its parameters: HIPAA Safe Harbor, Expert Determination, k-anonymity (with k), differential privacy (with ε). A phrase like 'stripped names' leaves a reviewer to guess which of these you did.",
-      "verification_hint": "You declare the method; the evidence is the report that names it with its parameters — k for k-anonymity, epsilon for differential privacy, or the Safe Harbor checklist."
+      "verification_hint": "You declare the method. The evidence is the report that names it with its parameters — k for k-anonymity, epsilon for differential privacy, or the Safe Harbor checklist."
     },
     {
       "id": "ethics.l3.oversight_documented",
@@ -547,7 +547,7 @@
       "lifecycle_stage": "governance",
       "required_in_pathways": ["C"],
       "references": ["Clark2026", "Rostamzadeh2022"],
-      "collection_hint": "Record the approving body, protocol number, and approval date at the moment approval is granted; by writing-up time the letter is usually filed away.",
+      "collection_hint": "Record the approving body, protocol number, and approval date at the moment approval is granted. By writing-up time the letter is usually filed away.",
       "remediation": "The review itself happens before/during acquisition. What travels with the dataset at L3 is structured evidence of that review — that is the L3 requirement.",
       "verification_hint": "The governance officer confirms the recorded approval matches the letter on file: body, protocol number, date, scope of permitted use, and current status."
     },
@@ -564,7 +564,7 @@
       "references": ["Clark2026"],
       "collection_hint": "Decide before collection who will be allowed access and under what conditions — consent wording usually has to match the access tier you intend.",
       "remediation": "Match the access tier to the sensitivity of the data and the consent basis recorded at L1.",
-      "verification_hint": "You declare the tier; the evidence is the repository's access configuration, which a reviewer can see from the landing page without asking you."
+      "verification_hint": "You declare the tier. The evidence is the repository's access configuration, which a reviewer can see from the landing page without asking you."
     },
     {
       "id": "ethics.l3.dua_referenced",
@@ -578,7 +578,7 @@
       "required_in_pathways": ["C"],
       "references": ["Clark2026"],
       "collection_hint": "If access will be restricted, note which data-use agreement applies, or that one still has to be drafted.",
-      "remediation": "Link to the DUA template the requester signs. Repositories like PhysioNet ship one; institutional Dataverse instances often do too.",
+      "remediation": "Link to the DUA template the requester signs. Repositories like PhysioNet ship one. Institutional Dataverse instances often do too.",
       "verification_hint": "The governance officer confirms the referenced agreement is the one a requester actually signs, or that open access makes it inapplicable."
     },
     {
@@ -591,7 +591,7 @@
       "lifecycle_stage": "governance",
       "required_in_pathways": ["C"],
       "references": ["Clark2026", "Rostamzadeh2022"],
-      "collection_hint": "Decide who fields access requests, and give the role a durable address. Individuals move institutions; the dataset outlives them.",
+      "collection_hint": "Decide who fields access requests, and give the role a durable address. Individuals move institutions. The dataset outlives them.",
       "remediation": "The ethics evidence at L3 is only actionable if a requester can reach someone. Name the data access committee, the steward's role, or the study contact, and give an address that survives staff turnover: a role alias, or the contact route your repository provides.",
       "verification_hint": "The governance officer confirms the address reaches someone today. This is the one row that decays without anybody editing it."
     },
@@ -620,7 +620,7 @@
       "required_in_pathways": ["A", "B", "C"],
       "references": ["Clark2026"],
       "collection_hint": "Write the sentence defining each variable when you create it, while what it measures is still precise in your head.",
-      "remediation": "Give each variable a sentence explaining what it measures and how it was measured. A column name abbreviates; a definition tells a stranger what was captured.",
+      "remediation": "Give each variable a sentence explaining what it measures and how it was measured. A column name abbreviates. A definition tells a stranger what was captured.",
       "verification_hint": "The domain expert confirms each definition would let a stranger interpret the column without asking a question."
     },
     {
@@ -692,7 +692,7 @@
       "references": ["Mitchell2019", "OpenAIGPT55", "Ravi2022", "Clark2026"],
       "collection_hint": "If a model will be trained on this data, note where its model card will live.",
       "remediation": "Triangular linkage: dataset DOI ↔ model DOI/HF ID ↔ results DOI. Link bidirectionally so each artefact resolves to the others. Where what ships is a deployed system, a system card is the equivalent artifact — it documents the safety mitigations and tool access around the model as well as the model itself.",
-      "verification_hint": "You declare this; the evidence is the model card resolving at the URL you give, with a link back to this dataset so the pair can be traced from either end."
+      "verification_hint": "You declare this. The evidence is the model card resolving at the URL you give, with a link back to this dataset so the pair can be traced from either end."
     },
     {
       "id": "sustainability.l1.open_format",
@@ -774,7 +774,7 @@
       "references": ["SalehiSchmeink2024", "Clark2026"],
       "collection_hint": "If you curate, distil, or subsample before release, record what you removed and why. That decision is invisible in the released file.",
       "remediation": "Document which intervention was applied and the metric it improved (records removed, accuracy at matched compute, etc.).",
-      "verification_hint": "You declare the intervention; the evidence is the measurement that motivated it — records removed, compression ratio, or accuracy at a matched compute budget."
+      "verification_hint": "You declare the intervention. The evidence is the measurement that motivated it — records removed, compression ratio, or accuracy at a matched compute budget."
     },
     {
       "id": "sustainability.l3.compute_cost_reported",
@@ -820,7 +820,7 @@
       },
       "collection_hint": "Keep the per-column notes in one place as you make them. The codebook is assembled from them, and gathering them at the end is the expensive way to do it.",
       "remediation": "Variable name, type, units, value set, and a one-sentence description per field. Markdown, CSV, or DDI all work.",
-      "verification_hint": "You declare this; the evidence is the codebook in the release bundle. Frictionless can check a declared table schema against the data it describes.",
+      "verification_hint": "You declare this. The evidence is the codebook in the release bundle. Frictionless can check a declared table schema against the data it describes.",
       "validators": ["frictionless"]
     },
     {
@@ -836,7 +836,7 @@
       "references": ["Blatter2022", "Clark2026"],
       "collection_hint": "For coded values, note the code system and its version at the time of coding. ICD-10 and ICD-11 codes look alike and do not mean the same thing.",
       "remediation": "Without controlled vocabularies, two correctly-documented datasets still cannot be aligned. Record the vocabulary version alongside its name.",
-      "verification_hint": "You declare this; the evidence is the mapping itself — each field to its vocabulary term, with the vocabulary version. A domain validator checks it where one exists for your field."
+      "verification_hint": "You declare this. The evidence is the mapping itself — each field to its vocabulary term, with the vocabulary version. A domain validator checks it where one exists for your field."
     },
     {
       "id": "computability.l2.linked_schemas",
@@ -850,7 +850,7 @@
       "references": ["Clark2026"],
       "collection_hint": "Note the URL of any schema or standard you are conforming to while you are conforming to it.",
       "remediation": "Reference the schema by URL inside the Croissant descriptor's `conformsTo` field.",
-      "verification_hint": "You declare this; the evidence is the conformsTo reference in the descriptor resolving to the schema you name.",
+      "verification_hint": "You declare this. The evidence is the conformsTo reference in the descriptor resolving to the schema you name.",
       "validators": ["frictionless"]
     },
     {

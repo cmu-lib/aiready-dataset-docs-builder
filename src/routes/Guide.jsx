@@ -72,7 +72,7 @@ export default function Guide() {
               {p.id} — {p.name}
             </button>
           ))}
-          <span className="text-[0.7rem] text-faint">Preview only; this does not set your pathway.</span>
+          <span className="text-[0.7rem] text-faint">Preview only. This does not set your pathway.</span>
         </div>
       )}
 

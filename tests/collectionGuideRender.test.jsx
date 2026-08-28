@@ -50,7 +50,7 @@ test('the guide is reachable with no pathway chosen, and says which set it shows
   const html = render(Guide, '/guide');
   assert.ok(html.includes('Research data collection guide'));
   assert.ok(html.includes('No pathway selected yet'), 'missing the fullest-set banner');
-  assert.ok(html.includes('Preview only; this does not set your pathway.'));
+  assert.ok(html.includes('Preview only. This does not set your pathway.'));
   assert.ok(html.includes('Task-ready'), 'should default to the L3 worksheet');
 });
 

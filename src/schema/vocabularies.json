@@ -184,7 +184,7 @@
         { "id": "documented_collection", "label": "Documented collection consent", "note": "Consent covering the collection itself. Sufficient to hold and analyse the data for the study it was gathered for, and silent about anything else." },
         { "id": "documented_secondary_use", "label": "Documented consent covering secondary use", "note": "Consent that explicitly extends beyond the original study. This is what allows a deposit to be reused by someone who was not party to the collection." },
         { "id": "granular_per_use", "label": "Granular per-use consent", "note": "Participants chose which uses they permit, use by use. The strongest basis, and the one that most constrains what a downstream user may do without checking." },
-        { "id": "broad_research_use", "label": "Broad consent for research use", "note": "Consent to unspecified future research, usually within a stated domain. Common in biobanking; check whether your intended use falls inside the stated scope." },
+        { "id": "broad_research_use", "label": "Broad consent for research use", "note": "Consent to unspecified future research, usually within a stated domain. Common in biobanking. Check whether your intended use falls inside the stated scope." },
         { "id": "waiver_of_consent", "label": "IRB-approved waiver of consent", "note": "An IRB determined that consent was not required, typically for minimal-risk secondary use of existing records. The waiver is the evidence, so record its identifier." },
         { "id": "NA_non_human_subjects", "label": "Not applicable — non-human-subjects data", "not_applicable": true, "note": "No human subjects, so there is no consent to obtain. The assessment records this as a statement, and reports it as one." },
         { "id": "NA_public_data", "label": "Not applicable — already-public data", "not_applicable": true, "note": "Already public at the point of collection. Note that public does not mean unrestricted: the source's licence still governs redistribution." }
@@ -231,7 +231,7 @@
     },
     "stakeholder_roles": {
       "label": "Stakeholder roles (CRediT-style)",
-      "guidance": "Readiness is a multi-role activity, and the roles map to dimensions. In a small team one person carries several — sometimes all of them — and what matters is that every dimension has a named owner before acquisition begins; the roles need not divide one to one (Table 14, §6.3).",
+      "guidance": "Readiness is a multi-role activity, and the roles map to dimensions. In a small team one person carries several — sometimes all of them — and what matters is that every dimension has a named owner before acquisition begins. The roles need not divide one to one (Table 14, §6.3).",
       "source": "Table 14 (tab:stakeholder-roles), paper",
       "values": [
         { "id": "data_steward", "label": "Data steward — FAIRness, Computability", "note": "Owns FAIRness and Computability. Metadata standards, repository workflows, identifier assignment — the person who knows what the deposit will be asked for." },

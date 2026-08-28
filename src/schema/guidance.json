@@ -55,10 +55,10 @@
       "kind": "Timestamped, searchable, shared",
       "tone": "border-warn-line bg-warn-bg",
       "obligation": "standards are good practice",
-      "via": "adopt an ELN; record at the time",
+      "via": "adopt an ELN, record at the time",
       "sample": "Sample      quartz-03\nPrepared    A. González · 2024-10-09\nInstrument  Rigaku SmartLab (inst-0217)\nConditions  Cu Kα · 40 kV / 30 mA · RT\nNote        re-polished; strong peak ~26.6° 2θ",
       "gains": "Timestamps, search, backup, and shared access.",
-      "out_of_reach": "Extraction of a value without a human reader; the content is still prose.",
+      "out_of_reach": "Extraction of a value without a human reader. The content is still prose.",
       "standards": "An established container is preferable to an invented one. Keep the entry organised around fields you will reuse across runs."
     },
     {
@@ -67,7 +67,7 @@
       "kind": "Templated ELN, LIMS, or instrument export",
       "tone": "border-info-line bg-info-bg",
       "obligation": "standards are good practice",
-      "via": "template the entry; export in a disciplinary format",
+      "via": "template the entry, export in a disciplinary format",
       "sample": "{ \"sample\": \"quartz-03\", \"method\": \"XRD\", \"source\": \"Cu Kα\",\n  \"voltage_kV\": 40, \"two_theta_deg\": [10, 80],\n  \"operator\": \"0000-0002-1825-0097\", \"date\": \"2024-10-09\" }",
       "gains": "Typed fields, explicit units, and stable identifiers a parser can consume.",
       "out_of_reach": "Meaning outside the group that chose the field names.",
@@ -79,10 +79,10 @@
       "kind": "Croissant and PROV-O, terms bound to vocabularies",
       "tone": "border-ok-line bg-ok-bg",
       "obligation": "standards are the point",
-      "via": "bind terms to a vocabulary; emit the descriptors",
+      "via": "bind terms to a vocabulary, emit the descriptors",
       "sample": "cr:Field two_theta · dataType sc:Float · source patterns.csv#two_theta_deg\nprov:Activity xrd_scan · used quartz-03 · wasAssociatedWith 0000-0002-1825-0097",
       "gains": "Loading and lineage traversal by tools with no prior knowledge of the source.",
-      "out_of_reach": "Nothing at this level; what remains are properties of the file itself.",
+      "out_of_reach": "Nothing at this level. What remains are properties of the file itself.",
       "standards": "Constitutive here. A shared vocabulary is what the receiving tool acts on, so a field name that appears in no vocabulary leaves the record readable and inert."
     }
   ],
@@ -121,7 +121,7 @@
       {
         "id": "referentially_sound",
         "label": "Referentially sound",
-        "check": "Internal references resolve; SHACL shape constraints hold",
+        "check": "Internal references resolve. SHACL shape constraints hold",
         "tone": "border-info-line bg-info-bg",
         "means": "The pointers inside the file resolve: every field source names a declared file, every identifier is unique, and for a provenance graph the shape constraints hold. This is the rung hand-written descriptors most often miss."
       },
@@ -168,7 +168,7 @@
         "level": "L3",
         "artifact": "provo",
         "min_degree": "referentially_sound",
-        "why": "Tracing a released feature back to raw inputs is a traversal, so every derivation edge has to land on a declared node. An intact chain is the claim; resolving edges are the mechanism."
+        "why": "Tracing a released feature back to raw inputs is a traversal, so every derivation edge has to land on a declared node. An intact chain is the claim. Resolving edges are the mechanism."
       }
     ],
     "references": [
@@ -182,7 +182,7 @@
       {
         "id": "automated",
         "label": "automated",
-        "definition": "Confirmed by a validator that must pass. The tool runs the check and reports the result; a claim on its own does not satisfy the row.",
+        "definition": "Confirmed by a validator that must pass. The tool runs the check and reports the result. A claim on its own does not satisfy the row.",
         "tone": "bg-ok-bg text-ok"
       },
       {
@@ -204,7 +204,7 @@
     ]
   },
   "datasheet_crosswalk": {
-    "lead": "Gebru et al. group a datasheet's questions by lifecycle stage; this document is ordered by assessment dimension, because one criterion answers one question and splitting it across stage headings would print the same answer twice. Where each of the template's groups is answered here:",
+    "lead": "Gebru et al. group a datasheet's questions by lifecycle stage. This document is ordered by assessment dimension, because one criterion answers one question and splitting it across stage headings would print the same answer twice. Where each of the template's groups is answered here:",
     "groups": [
       {
         "group": "Motivation",
@@ -248,7 +248,7 @@
     ]
   },
   "validation": {
-    "lead": "Validation is the last point at which a defect introduced earlier is still catchable. After release it is a correction, an erratum, and a model somebody already trained. The five categories below are what to check before you deposit; the tool runs the structural and grounding checks itself and references discipline validators for the rest.",
+    "lead": "Validation is the last point at which a defect introduced earlier is still catchable. After release it is a correction, an erratum, and a model somebody already trained. The five categories below are what to check before you deposit. The tool runs the structural and grounding checks itself and references discipline validators for the rest.",
     "categories": [
       {
         "id": "statistical",
@@ -296,7 +296,7 @@
     ]
   },
   "stewardship": {
-    "lead": "The obligation continues after release. Versioning binds a change to a citable reference, so a model trained on one version stays reproducible after the dataset moves on; long-term stewardship extends that into infrastructure. This layer is the rate-limiting factor for AI adoption in science, ahead of model innovation: without it every project starts the lifecycle over, and none of the work accumulates into a reusable asset.",
+    "lead": "The obligation continues after release. Versioning binds a change to a citable reference, so a model trained on one version stays reproducible after the dataset moves on. Long-term stewardship extends that into infrastructure. This layer is the rate-limiting factor for AI adoption in science, ahead of model innovation: without it every project starts the lifecycle over, and none of the work accumulates into a reusable asset.",
     "practices": [
       {
         "id": "version",
@@ -428,11 +428,11 @@
     ]
   },
   "levels": {
-    "lead": "Every worksheet row is tagged with the readiness level it belongs to. The levels are cumulative, so a row tagged L1 is required at every tier, L2 from Faithful upward, and L3 only for Task-ready. Names and DRL bands come from the assessment matrix; the sentence is what each level is for. The levels measure machine-actionability, which is independent of the governance a dataset needs: sensitive data carries access controls at every level, and clearing them does not raise the level.",
+    "lead": "Every worksheet row is tagged with the readiness level it belongs to. The levels are cumulative, so a row tagged L1 is required at every tier, L2 from Faithful upward, and L3 only for Task-ready. Names and DRL bands come from the assessment matrix. The sentence is what each level is for. The levels measure machine-actionability, which is independent of the governance a dataset needs: sensitive data carries access controls at every level, and clearing them does not raise the level.",
     "meaning": {
       "L1": "A person can find the dataset, obtain it, and know what they are allowed to do with it. The consumer is a reader.",
       "L2": "A pipeline can load it once someone has prepared the load: schema, distributions, and transformations are all declared, and a person still mediates the final step.",
-      "L3": "An automated or semi-automated machine-learning workflow can consume it without anyone preparing the data first — a workflow engine, an AutoML system, or an instrumented laboratory. Some pipelines automate a few steps and some run end to end; either way, the dataset is not what stops them. Verification is not optional at this tier: an unchecked descriptor cannot support an unattended load whatever it claims, so the L3 claims on FAIRness, Provenance, Pre-model Explainability, and Computability are bounded by how far the released artifacts climb the ladder above."
+      "L3": "An automated or semi-automated machine-learning workflow can consume it without anyone preparing the data first — a workflow engine, an AutoML system, or an instrumented laboratory. Some pipelines automate a few steps and some run end to end. Either way, the dataset is not what stops them. Verification is not optional at this tier: an unchecked descriptor cannot support an unattended load whatever it claims, so the L3 claims on FAIRness, Provenance, Pre-model Explainability, and Computability are bounded by how far the released artifacts climb the ladder above."
     }
   },
   "run_log_fields": [
@@ -559,7 +559,7 @@
     {
       "effect": "reduces",
       "title": "Have a model structure existing notes",
-      "what": "A generative model can turn a pile of free-text notes into draft structured records. It is a probabilistic generator: the same prompt can produce different output, and it can be wrong. Record the model, version, parameters, and the exact prompt, and check every field. That buys transparency; reproducibility stays out of reach for a stochastic generator.",
+      "what": "A generative model can turn a pile of free-text notes into draft structured records. It is a probabilistic generator: the same prompt can produce different output, and it can be wrong. Record the model, version, parameters, and the exact prompt, and check every field. That buys transparency. Reproducibility stays out of reach for a stochastic generator.",
       "examples": "Any general-purpose assistant, with the run documented as a method",
       "references": [
         "Mitchell2019"

@@ -105,7 +105,7 @@ export default function Layout() {
               href="https://forms.gle/wSQoMUJxUMqZGoon6"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1 rounded-none bg-accent px-3 py-1.5 text-xs font-semibold text-white hover:opacity-90"
+              className="-mr-2 inline-flex items-center gap-1 rounded-none bg-accent px-3 py-1.5 text-xs font-semibold text-white hover:opacity-90"
             >
               Share feedback →
             </a>
@@ -158,7 +158,7 @@ export default function Layout() {
           <div className="max-w-sm text-xs text-faint">
             <p>
               Proof-of-concept prototype (v0.1.0, pre-release) for the AI-readiness framework — a
-              work in progress, not a finished release. Runs entirely in your browser; nothing is
+              work in progress, not a finished release. Runs entirely in your browser. Nothing is
               uploaded.
             </p>
             <p className="mt-1">
