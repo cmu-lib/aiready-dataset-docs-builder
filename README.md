@@ -1,5 +1,7 @@
 # AI-Readiness Assessment & Documentation builder
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.22149126.svg)](https://doi.org/10.5281/zenodo.22149126)
+
 An interactive, browser-based tool that helps researchers assess whether their datasets are ready for publication, community sharing, or model training. The app implements the tiered assessment framework from *A data-centric framework for assessing and documenting research data for machine learning reuse* (González-Espinoza et al., 2026), combining the seven pre-model dimensions of the Bridge2AI Standards Working Group, the Data Readiness Levels of Lawrence, and the FAIR Maturity Indicators.
 
 🔗 **Live app:** https://cmu-lib.github.io/aiready-dataset-docs-builder/

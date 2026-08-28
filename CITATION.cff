@@ -26,8 +26,9 @@ authors:
     given-names: "Alfredo"
     orcid: "https://orcid.org/0000-0003-2361-1827"
     affiliation: "Carnegie Mellon University Libraries"
-version: "0.1.0"
+version: "0.1.0-beta"
 date-released: "2026-08-28"
+doi: "10.5281/zenodo.22149126"
 license: MIT
 repository-code: "https://github.com/cmu-lib/aiready-dataset-docs-builder"
 url: "https://cmu-lib.github.io/aiready-dataset-docs-builder/"
